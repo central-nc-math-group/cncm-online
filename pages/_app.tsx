@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import 'tailwindcss/tailwind.css'
 import { ProvideAuth } from "../utils/auth";
 
 function MyApp({ Component, pageProps }) {
