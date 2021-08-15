@@ -6,15 +6,14 @@ import { toast } from "tailwind-toast";
 import { useEffect } from "react";
 import { Auth } from "../utils/types";
 
-interface SignupProps {}
+interface LoginProps {}
 
-interface SignupFields {
+interface LoginFields {
   email: string;
-  username: string;
   password: string;
 }
 
-const Signup: React.FC<SignupProps> = () => {
+const Logup: React.FC<LoginProps> = () => {
   const router = useRouter();
   const {
     register,
@@ -29,10 +28,10 @@ const Signup: React.FC<SignupProps> = () => {
       router.push("/");
       return;
     }
-  })
+  });
 
-  const signup = async ({ email, username, password }: SignupFields) => {
-    const error = await auth.signup(email, username, password);
+  const login = async ({ email, password }: LoginFields) => {
+    const error = await auth.login(email, password);
     if (!!error) {
       toast()
         .danger("An error occurred!", error)
@@ -40,7 +39,7 @@ const Signup: React.FC<SignupProps> = () => {
         .show();
     } else {
       toast()
-        .success("Success!", "Your account has been created.")
+        .success("Success!", "You have logged in.")
         .with({ duration: 3000 })
         .show();
       router.push("/");
@@ -48,50 +47,21 @@ const Signup: React.FC<SignupProps> = () => {
   };
 
   return (
-    <div className={"mt-10 grid content-center justify-center"}>
+    <div className={" mt-10 grid content-center justify-center"}>
       <h1
         className={
-          "mb-6 text-3xl grid content-center justify-center w-full max-w-sm text-blue-500"
+          " mb-6 text-3xl grid content-center justify-center w-full max-w-sm text-blue-500"
         }
       >
-        Sign up!
+        Log in!
       </h1>
+
       <form
         className={"w-full max-w-sm"}
-        onSubmit={handleSubmit((data: SignupFields) => {
-          signup(data);
+        onSubmit={handleSubmit((data: LoginFields) => {
+          login(data);
         })}
       >
-        <div className={"md:flex md:items-center mb-6"}>
-          <div className={"md:w-1/3"}>
-            <label
-              className={
-                "block text-gray-500 font-bold md:text-left md-1 md:mb-0 pr-4"
-              }
-              htmlFor="username"
-            >
-              Username
-            </label>
-          </div>
-
-          <div className={"md:w-2/3"}>
-            <input
-              className={
-                "bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-              }
-              aria-label="Username"
-              name="username"
-              type="text"
-              {...register("username", {
-                required: true,
-                maxLength: 40,
-                pattern: /^[a-zA-Z0-9]+$/,
-              })}
-            />
-            {!!errors.username && errors.username.message}
-          </div>
-        </div>
-
         <div className={"md:flex md:items-center mb-6"}>
           <div className={"md:w-1/3"}>
             <label
@@ -121,7 +91,7 @@ const Signup: React.FC<SignupProps> = () => {
             {!!errors.email && errors.email.message}
           </div>
         </div>
-
+        <br />
         <div className={"md:flex md:items-center mb-6"}>
           <div className={"md:w-1/3"}>
             <label
@@ -152,7 +122,6 @@ const Signup: React.FC<SignupProps> = () => {
             {!!errors.password && errors.password.message}
           </div>
         </div>
-
         <div className={"md:flex md:items-center"}>
           <div className={"md:w-1/3"}></div>
           <div className={"md:w-2/3"}>
@@ -162,7 +131,7 @@ const Signup: React.FC<SignupProps> = () => {
               }
               type="submit"
             >
-              Sign up!
+              Log in!
             </button>
           </div>
         </div>
@@ -171,4 +140,4 @@ const Signup: React.FC<SignupProps> = () => {
   );
 };
 
-export default Signup;
+export default Logup;

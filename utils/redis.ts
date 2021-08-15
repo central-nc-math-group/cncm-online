@@ -1,5 +1,7 @@
 import Redis from "ioredis";
 
-// const redis = new Redis(process.env.REDIS_URL);
+// remember to only use redis in a server-side context
 
-// export default redis;
+const redis = new Redis(process.env.REDIS_URL);
+
+export default redis;
