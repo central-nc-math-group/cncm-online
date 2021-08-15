@@ -150,7 +150,7 @@ export const understandSignupError = (e) => {
 };
 
 export const understandLoginError = (e) => {
-  const email = "nicecontest21@gmail.com";
+  const email = "";
   switch (e) {
     case "auth/invalid-email": // the only way to have an invalid email is if the username maps to null, i.e. no user found
     case "auth/user-not-found":
