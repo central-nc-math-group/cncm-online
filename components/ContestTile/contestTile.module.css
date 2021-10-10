@@ -1,0 +1,54 @@
+.tile-container {
+/* Rectangle 11 */
+
+    position: relative;
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 90%;
+    height: 20vh;
+
+    background: rgba(158, 240, 26, 0.6);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.tile-container-2 {
+    position: relative;
+
+    width: 60%;
+    height: 100%;
+
+    background: rgba(56, 176, 0, 0.6);
+    -webkit-clip-path: polygon(0 0, 100% 0%, 80% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 80% 100%, 0% 100%);
+}
+
+.tile-container-3 {
+    position: relative;
+
+    width: 90%;
+    height: 100%;
+
+    background: rgba(0, 128, 0, 0.4);
+    -webkit-clip-path: polygon(0 0, 100% 0%, 77.778% 100%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 77.778% 100%, 0% 100%);
+}
+
+.right-center {
+    position: absolute;
+    left: 75%;
+    top: 50%;
+    font-size: 3vh;
+    
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.left-center {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    font-size: 5vh;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
