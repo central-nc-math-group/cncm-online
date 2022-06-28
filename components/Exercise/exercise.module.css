@@ -1,0 +1,59 @@
+.exerciseContainer {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    background: linear-gradient(0deg, #F3F3EC, #F3F3EC);
+    border: 1px solid #A3A3A3;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 25px;
+    line-height: 29px;
+    color: #000000;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin:auto;
+}
+
+#correct {
+    background: #27ba10;
+}
+
+#neutral {
+    background: linear-gradient(0deg, #F3F3EC, #F3F3EC);
+}
+
+.prompt {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 23px;
+}
+
+.underline {
+    width: 14%;
+    margin-top: 0;
+    color: #695151;
+    margin: auto;
+    
+}
+
+.header {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 35px;
+    line-height: 41px;
+    text-align: center;
+    color: #000000;
+    padding-top: 10px;
+    padding-bottom: 0px;
+}

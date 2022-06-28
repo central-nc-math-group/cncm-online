@@ -5,7 +5,7 @@ import { Component, useEffect } from 'react';
 import Navbar from '../components/Navbar/navbar';
 import ContestTile from '../components/ContestTile/contestTile';
 import styles from '../styles/Home.module.css'
-import { useAuth } from '../utils/auth'
+import { useAuth } from '../utils/firebase/auth'
 import { Auth } from '../utils/types';
 
 export default function Home() {

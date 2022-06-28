@@ -1,7 +1,7 @@
 // import styles from "../styles/login.module.css";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { useAuth } from "../utils/auth";
+import { useAuth } from "../utils/firebase/auth";
 import { toast } from "tailwind-toast";
 import { useEffect } from "react";
 import { Auth } from "../utils/types";

@@ -17,10 +17,6 @@ module.exports = {
        '6xl': '4rem',
       '7xl': '5rem',
      },
-
-     colors: {
-       darkGreen: "008000",
-     }
   },
   variants: {
     extend: {

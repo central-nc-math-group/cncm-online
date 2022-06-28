@@ -19,13 +19,14 @@ const adminConfig = {
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp(
     {
+      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
       credential: firebaseAdmin.credential.cert(adminConfig),
-    },
-    "admin"
+    }
   );
 }
 
 export const auth = firebaseAdmin.auth();
+export const db = firebaseAdmin.database();
 
 // TODO: add email verification
 export const verifyIdToken = (token) =>

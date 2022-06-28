@@ -5,7 +5,7 @@ import { Component, useEffect } from 'react';
 import Navbar from '../components/Navbar/navbar';
 import ContestTile from '../components/ContestTile/contestTile';
 import { toast } from "tailwind-toast";
-import { useAuth } from '../utils/auth'
+import { useAuth } from '../utils/firebase/auth'
 import { Auth } from '../utils/types';
 
 function Leaderboard() {
@@ -21,15 +21,18 @@ function Leaderboard() {
   ["name3", 40,40,30,30,40,50,70],
   ["name4", 40,40,50,30,40,50,70],
   ["name5", 40,40,60,30,40,50,70]]
+
+
+
   for (let index in data) {
     var total = 0
     for (let i=1; i < data[index].length; i++) {
-      total += data[index][i]
+      total = 100
     } 
     data[index].splice(1,0,total)
   }
   data.sort(function(a,b) {
-    return b[1] - a[1]
+    return 1;
   })
   
   return (

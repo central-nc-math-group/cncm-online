@@ -2,16 +2,20 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 import queryString from "query-string";
 import firebase from "firebase/app";
 import "firebase/auth";
-import { post } from "../utils/restClient";
-import { Auth } from "./types";
+import { post } from "../restClient";
+import { Auth } from "../types";
 
 // USE THIS ONLY IN CLIENT-SIDE CONTEXT
 
 const prod = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
 };
 
 if (!firebase.apps.length) {
