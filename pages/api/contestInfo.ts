@@ -2,17 +2,19 @@ import { db, auth } from "../../utils/firebase/firebaseAdmin";
 
 const contestInfo = async (req, res) => {
 
-  const num = await db
-    .ref("/Contest/problems")
-    .once("value")
-    .then((snapshot) => (snapshot.val()));
+    var num = 0;
+    var round = 0;
+    var startTime = "";
+    var endTime = "";
 
-    const startTime = await db
-    .ref("/Contest/startTime")
-    .once("value")
-    .then((snapshot) => (snapshot.val()));
+    await db.ref("Contest").once("value").then(function(snapshot) {
+        num = snapshot.child("problems").val()
+        startTime = snapshot.child("startTime").val()
+        round = snapshot.child("round").val()
+        endTime = snapshot.child("endTime").val()
+    })
 
-    res.status(200).send({num: num, startTime: startTime});
+    res.status(200).send({num: num, startTime: startTime, endTime: endTime, round: round});
 };
 
 export default contestInfo;
