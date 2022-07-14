@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "pages/profle/[pid].js"  ],
   "exclude": [
     "node_modules"
   ]
