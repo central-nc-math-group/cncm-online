@@ -15,6 +15,7 @@ import { useTimer } from 'react-timer-hook';
 
 const calculateTimeLeft = (startTime) => {
   let year = new Date().getFullYear();
+  // console.log(new Date().toISOString());
   let difference = +new Date(startTime) - +new Date();
 
   let timeLeft = {};
@@ -43,6 +44,7 @@ export default function Contest2() {
   useEffect(() => {
     // Update the document title using the browser API
     loadProblem();
+
     
     if (contestStart) {
       const timer = setTimeout(() => {
@@ -57,6 +59,7 @@ export default function Contest2() {
         if (Object.keys(calculateTimeLeft(startTime)).length === 0) {
           setContestStart(true)
         }
+        
       }, 1000);
       return () => clearTimeout(timer);
     }
@@ -74,6 +77,7 @@ export default function Contest2() {
   const loadProblem = async () => {
     const test = await post<object>(`contestInfo`,{test:1});
     const response = await fetch("http://worldtimeapi.org/api/timezone/America/New_York");
+
  
     const jsonData = await response.json();
     setStartTime(test.value.startTime)

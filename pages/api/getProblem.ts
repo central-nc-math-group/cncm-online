@@ -7,6 +7,8 @@ const getProblem = async (req, res) => {
     return;
   }
 
+  // console.log(new Date().toISOString());
+
   const {
     id,
     uid
