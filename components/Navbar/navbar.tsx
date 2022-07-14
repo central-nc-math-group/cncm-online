@@ -5,7 +5,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 
 const navigation = [
-    { name: 'Home', href: '/home', current: true },
+    { name: 'Home', href: '/', current: true },
     { name: 'Log-In', href: '#', current: false },
     { name: 'Contest', href: '/contest2', current: false },
     { name: 'Leaderboard', href: '/leaderboard', current: false },

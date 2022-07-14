@@ -15,7 +15,7 @@ export async function post<Output>(
   data: object,
 ): Promise<Response<Output>> {
 
-  const attempt = await fetch(`api/${url}`, {
+  const attempt = await fetch(`/api/${url}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
