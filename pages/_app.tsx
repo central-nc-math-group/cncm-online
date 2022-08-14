@@ -1,6 +1,6 @@
 import 'tailwindcss/tailwind.css'
 import { ProvideAuth } from "../utils/firebase/auth";
-import Contest2 from './contest2';
+import Contest2 from './contest/active';
 import { Toaster } from 'react-hot-toast';
 
 function MyApp({ Component, pageProps }) {

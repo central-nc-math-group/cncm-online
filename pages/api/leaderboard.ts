@@ -9,8 +9,9 @@ const leaderboard = async (req, res) => {
         return;
     }
 
-    var round = 3;
+    var round = 7;
     var scorersTable = [];
+    var superTable = [];
     await db.ref("Competitors/Round" + round).once("value").then(function(questionsSnapshot) {
         var userId;
     
@@ -35,19 +36,27 @@ const leaderboard = async (req, res) => {
 
             db.ref("Competitors/Round"+round+"/"+userId).update({totalscore: userscore});
             scorersTable.push([name, userscore, score[0], score[1], score[2], score[3], score[4], score[5], score[6]]);
+            superTable.push([userId, userscore])
         }
         });
     });
     
     scorersTable.sort((a,b) => (a[1] < b[1]) ? 1 : -1);
+    superTable.sort((a,b) => (a[0] < b[0]) ? 1 : -1);
 
     // Rank storage for a later time
+
+
     // if (distance >= 0) {
     //   firebase.database().ref("Competitors/" + round + "/" + scorersTable[i-1].userid + "/rank").update({[time]: i});
     // } else {
     //   firebase.database().ref("Competitors/" + round + "/" + scorersTable[i-1].userid + "/rank").update({"Final": i});
     // }
-    // firebase.database().ref("Competitors/" + round + "/" + scorersTable[i-1].userid + "/rank").update({"Current": i});
+
+    for (var i = 1; i <= superTable.length; i++) {
+        db.ref("Competitors/" + "Round" + round + "/" + scorersTable[i-1][0] + "/rank").update({"Current": i});
+    }
+
 
 
     res.status(201).send(scorersTable)

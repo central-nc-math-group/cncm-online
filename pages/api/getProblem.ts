@@ -1,3 +1,4 @@
+import image from "next/image";
 import { db, auth } from "../../utils/firebase/firebaseAdmin";
 import { post } from "../../utils/restClient";
 
@@ -37,11 +38,20 @@ const getProblem = async (req, res) => {
     .ref("/BackgroundProcess/" + id + "/prompt")
     .once("value")
     .then((snapshot) => (snapshot.val()));
+  
+  const imgPath = await db
+    .ref("/BackgroundProcess/" + id + "/img")
+    .once("value")
+    .then((snapshot) => (snapshot.val()));
 // henloe bakshar
   var solved = false;
   var attempts = 5;
   var score = 0;
+  var img = false;
 
+  if (imgPath != null) {
+    img = true;
+  }
   // is there a more efficient way to do this
 
   await db.ref("Competitors/Round" + contestJSON.round + "/" + uid + "/" + id).once("value").then(function(snapshot) {
@@ -57,7 +67,7 @@ const getProblem = async (req, res) => {
   if (difference < 0 || difference2 > 0) {
     res.status(403).send("Forbidden");
   } else {
-    res.status(200).send({prompt: prompt, solved: solved, attempts: attempts, score: score});
+    res.status(200).send({prompt: prompt, solved: solved, attempts: attempts, score: score, img: img, imgPath: imgPath});
   }
 
 };

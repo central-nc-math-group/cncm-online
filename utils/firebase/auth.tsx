@@ -50,7 +50,7 @@ function useProvideAuth(): Auth {
   };
 
   const signup = async (email, username, password) => {
-    const result = await post<string>(`auth/createUser`, { email, username, password });
+    const result = await post<string>(`createUser`, { email, username, password });
     if (!result.success) return understandSignupError(result.value);
     return login(email, password);
   };
@@ -157,6 +157,7 @@ export const understandLoginError = (e) => {
   const email = "";
   switch (e) {
     case "auth/invalid-email": // the only way to have an invalid email is if the username maps to null, i.e. no user found
+      return "It seems that you do not have an account. Please sign up and try again.";
     case "auth/user-not-found":
       return "It seems that you do not have an account. Please sign up and try again.";
     case "auth/user-disabled":

@@ -7,6 +7,7 @@ const userInfo = async (req, res) => {
       }
     
     const id = req.body.id;
+    const uid = req.body.uid;
     
     var taken = false;
     console.log(id)
@@ -18,7 +19,12 @@ const userInfo = async (req, res) => {
           if (id == value) {
             taken = true;
             const rating = questionSnapshot.child("rating").val();
-            res.status(200).send({rating: rating})
+            const contests = questionSnapshot.child("contests").val();
+            const rank = questionSnapshot.child("rank").val();
+
+            var you = (uid === questionSnapshot.key)
+            console.log(you)
+            res.status(200).send({rating: rating, contests: contests, rank: rank, you: you})
           }
         });
       });

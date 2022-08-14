@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { NextComponentType } from 'next'
+import { NextComponentType, Link } from 'next'
 import styles from "./navbar.module.css";
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
@@ -7,12 +7,12 @@ import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
 const navigation = [
     { name: 'Home', href: '/', current: true },
     { name: 'Log-In', href: '#', current: false },
-    { name: 'Contest', href: '/contest2', current: false },
+    { name: 'Contest', href: '/contest/active', current: false },
     { name: 'Leaderboard', href: '/leaderboard', current: false },
     { name: 'Rules', href: '/rules', current: false },
     { name: 'Sponsors', href: '#', current: false },
     { name: 'Archive', href: '#', current: false },
-    { name: 'Hall of Fame', href: '#', current: false },
+    { name: 'Hall of Fame', href: '/hof', current: false },
   ]
   
   function classNames(...classes) {
@@ -40,7 +40,7 @@ function Navbar({}) {
                   </div>
                   <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div className="flex-shrink-0 flex items-center text-white text-2xl">
-                        <strong>CNCM</strong> Online
+                        <a href="/"><strong>CNCM</strong>Online</a>
                     </div>
                     <div className="hidden sm:block sm:ml-6">
                       <div className="flex space-x-4">
@@ -87,7 +87,7 @@ function Navbar({}) {
                           <Menu.Item>
                             {({ active }) => (
                               <a
-                                href="#"
+                                href="/profile"
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                               >
                                 Your Profile

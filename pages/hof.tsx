@@ -9,7 +9,7 @@ import { useAuth } from '../utils/firebase/auth'
 import { Auth } from '../utils/types';
 import { post } from '../utils/restClient';
 
-function Leaderboard() {
+function HOF() {
   const auth: Auth = useAuth() as Auth;
   const router = useRouter();
 
@@ -26,9 +26,13 @@ function Leaderboard() {
 
   const loadProblem = async () => {
 
-    const test = await post<object>(`leaderboard`,{id:1});
+    const test = await post<object>(`ratingList`,{id:1});
     setData(test.value);
   };
+
+  const lawlawl = async () => {
+    const test = await post<object>(`calcElo`,{id:1});
+  }
   // for (let index in data) {
   //   var total = 0
   //   for (let i=1; i < data[index].length; i++) {
@@ -45,20 +49,14 @@ function Leaderboard() {
       <Navbar/>
 
 
+      <button onClick={lawlawl}>LAWL</button>
       <div className="flex w-auto items-center justify-center">
       <div className={"flex m-5 items-center justify-center shadow-md rounded w-5/6"}>
         <table className={"w-full rounded-md text-lg text-left text-gray-500"}>
             <tr className={"rounded-md text-xl text-white uppercase bg-green-500"}>
             <th scope="col" className="px-6 py-3">Rank</th>
                 <th scope="col" className="px-6 py-3">Username</th>
-                <th scope="col" className="px-6 py-3">Total</th>
-                <th scope="col" className="px-6 py-3">P1</th>
-                <th scope="col" className="px-6 py-3">P2</th>
-                <th scope="col" className="px-6 py-3">P3</th>
-                <th scope="col" className="px-6 py-3">P4</th>
-                <th scope="col" className="px-6 py-3">P5</th>
-                <th scope="col" className="px-6 py-3">P6</th>
-                <th scope="col" className="px-6 py-3">P7</th>
+                <th scope="col" className="px-6 py-3">Rating</th>
             </tr>
             {data.map((val, key) => {
               if (key % 2 == 0) {
@@ -106,4 +104,4 @@ function Leaderboard() {
   );
 }
 
-export default Leaderboard;
+export default HOF;

@@ -40,8 +40,9 @@ export default function Exercise(props) {
   const [attempts, setAttempts] = useState(5);
   const [score, setScore] = useState(0);
   
-  //const [ans, setAns] = useState(props.answer);
   const [prompt, setPrompt] = useState(props.prompt);
+  const [img, setImg] = useState(false)
+  const [imgPath, setImgPath] = useState("")
 
   const loadProblem = async () => {
 
@@ -55,7 +56,11 @@ export default function Exercise(props) {
     setPrompt(problem.value.prompt);
     setAttempts(problem.value.attempts);
     setScore(problem.value.score);
+    setImg(problem.value.img)
 
+    if (img) {
+      setImgPath(problem.value.imgPath)
+    }
     if (score > 0) {
       setCorrect(true);
       setDisabled(true);
@@ -199,6 +204,9 @@ export default function Exercise(props) {
             <p className={"text-l text-gray-700 text-base"}>
               <Latex>{prompt}</Latex>
             </p>
+          </div>
+          <div className={!img ? "w-0 h-0 invisible" : "flex w-full justify-center m-5"}>
+            <img src={"../images/" + imgPath} width="25%"></img>
           </div>
 
         </div>

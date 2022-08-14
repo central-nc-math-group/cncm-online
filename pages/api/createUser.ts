@@ -40,14 +40,23 @@ const createUser = async (req, res) => {
     return;
   }
 
-  const usernameExists = await db
-    .ref(`/usernames/${displayName}`)
-    .once("value")
-    .then((snapshot) => snapshot.val());
-  if (!!usernameExists) {
-    res.status(400).send("auth/username-already-exists");
-    return;
-  }
+  await db.ref("Users").once("value").then(async function(questionsSnapshot) {
+    var value;
+    var value2;
+    await questionsSnapshot.forEach(function(questionSnapshot) {
+      value = questionSnapshot.child("name").val();
+      value2 = questionSnapshot.child("email").val();
+      
+      if (displayName == value) {
+        res.status(400).send("auth/username-already-exists");
+      }
+
+      if (email == value2) {
+        res.status(400).send("auth/email-already-exists");
+      }
+
+    });
+  });
 
   auth
     .createUser({
@@ -56,14 +65,15 @@ const createUser = async (req, res) => {
       password,
     })
     .then(async (userRecord) => {
-      await db.ref(`/userInformation/${userRecord.uid}`).set({
+      await db.ref(`/Users/${userRecord.uid}`).set({
         username: displayName,
         email: userRecord.email,
+        rating: 1200,
       });
-      await db.ref(`/usernames/${displayName}`).set({
-        uid: userRecord.uid,
-        email: userRecord.email,
-      });
+      // await db.ref(`/usernames/${displayName}`).set({
+      //   uid: userRecord.uid,
+      //   email: userRecord.email,
+      // });
       // sendEmailVerification(userRecord.uid, email, displayName, req)
       //   .then(() => {
       //     res.status(201).send("Account Created");
