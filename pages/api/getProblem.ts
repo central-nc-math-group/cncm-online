@@ -17,7 +17,7 @@ const getProblem = async (req, res) => {
 
   const response = await fetch("http://worldtimeapi.org/api/timezone/America/New_York");
   const jsonData = await response.json();
-  const timeString = jsonData.datetime.substring(0,19) + "-04:00"
+  const timeString = jsonData.datetime.substring(0,19) + "-05:00"
 
 
   const contestInfo = await fetch("http://localhost:3000/api/contestInfo", {
@@ -64,6 +64,7 @@ const getProblem = async (req, res) => {
   if (!score) {score = 0}
   if (solved === null) { solved = false}
 
+  console.log(difference + " " + difference2);
   if (difference < 0 || difference2 > 0) {
     res.status(403).send("Forbidden");
   } else {

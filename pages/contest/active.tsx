@@ -46,9 +46,49 @@ export default function Contest2() {
   useEffect(() => {
     // Update the document title using the browser API
     loadProblem();
+    loadUserBoard();
+
+    // console.log(timeLeft);
+    // console.log(startTime + " " + contestStart);
+    // console.log(endTime + " " + contestEnd);
+    
 
 
-    console.log(contestStart + " " + contestEnd)
+
+
+  }, []);
+
+
+
+
+
+  const loadProblem = async () => {
+
+
+      const test = await post<object>(`contestInfo`,{test:1});
+      const response = await fetch("http://worldtimeapi.org/api/timezone/America/New_York");
+  
+      const jsonData = await response.json();
+      setStartTime(test.value.startTime)
+      setEndTime(test.value.endTime)
+      setProbs(test.value.num)
+  
+   
+      for (var i = 1; i <= probs; i++) {
+        problems.push("q" + i)
+      }
+    
+  };
+
+  const loadUserBoard = async () => {
+    console.log(auth.uid);
+    if (!!auth.uid) {
+      const test2 = await post<object>(`userboard`,{uid:auth.uid});
+      setData(test2.value);
+    }
+  }
+
+  const timer = () => {
     if (contestStart) {
       const timer = setTimeout(() => {
         setTimeLeft(calculateTimeLeft(endTime));
@@ -57,7 +97,7 @@ export default function Contest2() {
           setContestEnd(true)
         }
       }, 1000);
-
+  
       return () => clearTimeout(timer);
     } else {
       const timer = setTimeout(() => {
@@ -69,44 +109,12 @@ export default function Contest2() {
         
       }, 1000);
       
-    loadUserBoard();
-      return () => clearTimeout(timer);
-
-      
-    }
-
-
-
-
-  });
-
-
-
-
-
-  const loadProblem = async () => {
-    console.log(auth.uid)
-    const test = await post<object>(`contestInfo`,{test:1});
-    const response = await fetch("http://worldtimeapi.org/api/timezone/America/New_York");
-
-    const jsonData = await response.json();
-    setStartTime(test.value.startTime)
-    setEndTime(test.value.endTime)
-    setProbs(test.value.num)
-
- 
-    for (var i = 1; i <= probs; i++) {
-      problems.push("q" + i)
-    }
-  };
-
-  const loadUserBoard = async () => {
-    if (!!auth.uid) {
-      const test2 = await post<object>(`userboard`,{uid:auth.uid});
-      setData(test2.value);
+        return () => clearTimeout(timer);
+  
     }
   }
 
+  timer();
 
   
   return (

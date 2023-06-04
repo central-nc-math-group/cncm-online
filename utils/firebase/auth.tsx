@@ -94,7 +94,7 @@ function useProvideAuth(): Auth {
     });
 
     return () => unsubscribe();
-  }, []);
+  });
 
   return {
     uid: user && user.uid,

@@ -69,7 +69,7 @@ function Navbar({}) {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src="https://images-ext-2.discordapp.net/external/HghzULInC7DHXaJb_fkA7XN9mNXoUllj_jZ9gNxvuqU/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/197445009685872650/435c28f5146e78b265fd76ee4faec368.png"
+                            src="https://cdn.discordapp.com/avatars/197445009685872650/72f4a86416da5e0b73c732efd3b54321.png"
                             alt=""
                           />
                         </Menu.Button>

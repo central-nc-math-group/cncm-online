@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex'
 
@@ -44,6 +44,9 @@ export default function Exercise(props) {
   const [img, setImg] = useState(false)
   const [imgPath, setImgPath] = useState("")
 
+  useEffect(() => {
+    loadProblem();
+  }, []);
   const loadProblem = async () => {
 
     const id = props.problem;
@@ -72,9 +75,7 @@ export default function Exercise(props) {
 
   };
 
-  if (!!props.problem) {
-    loadProblem()
-  }
+
 
   const checkCorrect = async() => { //snackbar only, this helper can hide the snackbar as one of the button functions
     /* Example */
@@ -147,7 +148,7 @@ export default function Exercise(props) {
       }
     }
 
-
+    loadProblem(auth.uid);
   
   }
 

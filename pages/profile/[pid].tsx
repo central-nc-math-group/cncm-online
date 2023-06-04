@@ -13,7 +13,7 @@ export default function Profile() {
   const [rank, setRank] = useState(0);
   const [contests, setContests] = useState(0);
   const [you, setYou] = useState(false);
-  const image = { uri: "https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80"}
+  const image = { uri: "https://cdn.discordapp.com/avatars/197445009685872650/72f4a86416da5e0b73c732efd3b54321.png"}
 
   const loadProfile = async () => {
     const problem = await post<string>(`userInfo`,{id:pid,uid:auth.uid});
@@ -43,7 +43,7 @@ export default function Profile() {
           <div className="flex flex-col items-center mt-5">
             <img
               alt="Victor"
-              src="https://images-ext-2.discordapp.net/external/HghzULInC7DHXaJb_fkA7XN9mNXoUllj_jZ9gNxvuqU/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/197445009685872650/435c28f5146e78b265fd76ee4faec368.png"
+              src="https://cdn.discordapp.com/avatars/197445009685872650/72f4a86416da5e0b73c732efd3b54321.png"
               className="relative z-20 rounded-full border-6 border-white w-40 h-40"
             />
             <div className="flex mt-5">
