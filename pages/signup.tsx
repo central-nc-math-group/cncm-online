@@ -47,10 +47,17 @@ const Signup: React.FC<SignupProps> = () => {
         // Aria
       });
     } else {
-      toast()
-        .success("Success!", "Your account has been created.")
-        .with({ duration: 3000 })
-        .show();
+      toast.success('Success! Your account has been created', {
+        duration: 4000,
+        // Styling
+        style: {
+          backgroundColor: '#9ff092',
+        },
+        className: '',
+        // Custom Icon
+        // Change colors of success/error/loading icon
+        // Aria
+      });
       router.push("/");
     }
   };
@@ -72,7 +79,7 @@ const Signup: React.FC<SignupProps> = () => {
                         <strong>CNCM</strong> Online
                     </div>
                   </div>
-                  <form onSubmit={handleSubmit((data: LoginFields) => {
+                  <form onSubmit={handleSubmit((data: SignupFields) => {
                     signup(data);
                   })}>
                     <p className="mb-4">Complete the following fields to create an account</p>

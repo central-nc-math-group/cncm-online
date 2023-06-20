@@ -12,13 +12,80 @@ import { getProblem } from '../../utils/firebase/dbHelpers';
 import { post } from '../../utils/restClient';
 import { toast } from "tailwind-toast";
 import { useTimer } from 'react-timer-hook';
+import clientPromise from "../../utils/mongo/index";
+import { db, auth } from "../../utils/firebase/firebaseAdmin";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+
+  try {
+    const cookies = ctx.req.cookies
+    const token = await auth.verifyIdToken(cookies.token);
+
+    // the user is authenticated!
+    const { uid, email } = token;
+    const { pid } = ctx.query;
+
+    const client = await clientPromise;
+    const db = client.db("Active");
+    const db2 = client.db("Users");
+
+    const data = await db
+        .collection("Info")
+        .findOne({})
+
+    let start = false;
+    let end = false;
+
+    let difference = +new Date(data.startTime) - +new Date();
+    let difference2 = +new Date(data.endTime) - +new Date();
+
+    if (difference < 0) {
+        start = true;
+    }
+
+    if (difference2 < 0) {
+      end = true;
+    }
+
+    let response = [];
+
+    let scorersTable = await db
+        .collection("Scores")
+        .find()
+        .sort({totalScore: -1})
+        .toArray()
+
+    for (var i = 0; i < scorersTable.length; i++) {
+        if (scorersTable[i].id == uid) {
+            response.push([i+1, scorersTable[i].name, scorersTable[i].totalScore, scorersTable[i].scoreData[0].score, scorersTable[i].scoreData[1].score, scorersTable[i].scoreData[2].score, scorersTable[i].scoreData[3].score, scorersTable[i].scoreData[4].score, scorersTable[i].scoreData[5].score, scorersTable[i].scoreData[6].score]);
+        }
+    }
+
+      let user = await db2
+        .collection("Accounts")
+        .findOne({id: uid})
+
+    if (response.length == 0) {
+        response.push(['-', user.name, 0, 0, 0, 0, 0, 0, 0, 0])
+    }
+
+    return {
+      props: {num: data.problems, startTime: data.startTime, round: data.round, endTime: data.endTime, token: cookies.token, start: start, end: end, data:response},
+    }
+    
+  } catch (e) {
+      return { props: {message: JSON.stringify(e, Object.getOwnPropertyNames(e))} };
+  }
+
+};
 
 const calculateTimeLeft = (startTime) => {
   let year = new Date().getFullYear();
   // console.log(new Date().toISOString());
   let difference = +new Date(startTime) - +new Date();
 
-  let timeLeft = {};
+  let timeLeft = {days: '00', hours: '00', minutes: '00', seconds: '00'};
 
   if (difference > 0) {
     timeLeft = {
@@ -31,69 +98,29 @@ const calculateTimeLeft = (startTime) => {
   return timeLeft;
 }
 
-export default function Contest2() {
+export default function Contest2(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
   const auth: Auth = useAuth() as Auth;
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState({});
-  const [startTime, setStartTime]= useState("");
-  const [endTime, setEndTime] = useState("");
-  const [contestStart, setContestStart] = useState(false);
-  const [contestEnd, setContestEnd] = useState(false);
-  const [probs, setProbs] = useState(0);
-  const [data, setData] = useState([[]]);
+  const [timeLeft, setTimeLeft] = useState({days: '00', hours: '00', minutes: '00', seconds: '00'});
+  const [contestStart, setContestStart] = useState(props.start);
+  const [contestEnd, setContestEnd] = useState(props.end);
+
   const problems = [];
 
-  useEffect(() => {
-    // Update the document title using the browser API
-    loadProblem();
-    loadUserBoard();
-
-    // console.log(timeLeft);
-    // console.log(startTime + " " + contestStart);
-    // console.log(endTime + " " + contestEnd);
-    
-
-
-
-
-  }, []);
-
-
-
-
-
-  const loadProblem = async () => {
-
-
-      const test = await post<object>(`contestInfo`,{test:1});
-      const response = await fetch("http://worldtimeapi.org/api/timezone/America/New_York");
-  
-      const jsonData = await response.json();
-      setStartTime(test.value.startTime)
-      setEndTime(test.value.endTime)
-      setProbs(test.value.num)
-  
-   
-      for (var i = 1; i <= probs; i++) {
-        problems.push("q" + i)
-      }
-    
-  };
-
   const loadUserBoard = async () => {
-    console.log(auth.uid);
     if (!!auth.uid) {
       const test2 = await post<object>(`userboard`,{uid:auth.uid});
-      setData(test2.value);
     }
   }
 
   const timer = () => {
     if (contestStart) {
       const timer = setTimeout(() => {
-        setTimeLeft(calculateTimeLeft(endTime));
-        console.log(Object.keys(calculateTimeLeft(endTime)).length === 0)
-        if (Object.keys(calculateTimeLeft(endTime)).length === 0) {
+        setTimeLeft(calculateTimeLeft(props.endTime));
+        console.log(Object.keys(calculateTimeLeft(props.endTime)).length === 0)
+        if (Object.keys(calculateTimeLeft(props.endTime)).length === 0) {
           setContestEnd(true)
         }
       }, 1000);
@@ -101,9 +128,9 @@ export default function Contest2() {
       return () => clearTimeout(timer);
     } else {
       const timer = setTimeout(() => {
-        setTimeLeft(calculateTimeLeft(startTime));
-        console.log(Object.keys(calculateTimeLeft(startTime)).length === 0)
-        if (Object.keys(calculateTimeLeft(startTime)).length === 0) {
+        setTimeLeft(calculateTimeLeft(props.startTime));
+        console.log(Object.keys(calculateTimeLeft(props.startTime)).length === 0)
+        if (Object.keys(calculateTimeLeft(props.startTime)).length === 0) {
           setContestStart(true)
         }
         
@@ -187,7 +214,7 @@ export default function Contest2() {
                 <th scope="col" className="px-6 py-3">P6</th>
                 <th scope="col" className="px-6 py-3">P7</th>
             </tr>
-            {data.map((val, key) => {
+            {props.data.map((val, key) => {
 
                 return (
                   <tr className={"bg-gray-100"}>
@@ -208,8 +235,8 @@ export default function Contest2() {
       </div>
       </div>
       <div className={(contestStart && !contestEnd) ? "mb-10 visible" : "mb-10 invisible"}>
-        {[...Array(probs)].map((x, i) =>
-          <Exercise num={(i+1)} problem={"q"+(i+1)} />
+        {[...Array(props.num)].map((x, i) =>
+          <Exercise num={(i+1)} token={props.token}/>
         )}
       </div>
 

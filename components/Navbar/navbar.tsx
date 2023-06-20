@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react'
-import { NextComponentType, Link } from 'next'
 import styles from "./navbar.module.css";
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { useAuth } from '../../utils/firebase/auth';
+import { Auth } from '../../utils/types';
 
 const navigation = [
     { name: 'Home', href: '/', current: true },
-    { name: 'Log-In', href: '#', current: false },
+    { name: 'Log-In', href: '/login', current: false },
     { name: 'Contest', href: '/contest/active', current: false },
     { name: 'Leaderboard', href: '/leaderboard', current: false },
     { name: 'Rules', href: '/rules', current: false },
@@ -21,6 +22,13 @@ const navigation = [
 
   
 function Navbar({}) {
+
+    const auth: Auth = useAuth() as Auth;
+
+    const logout = async () => {
+      auth.logout();
+    };
+
     return (
         <Disclosure as="nav" className="bg-green-500">
           {({ open }) => (
@@ -69,7 +77,7 @@ function Navbar({}) {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src="https://cdn.discordapp.com/avatars/197445009685872650/72f4a86416da5e0b73c732efd3b54321.png"
+                            src="https://cdn.discordapp.com/avatars/197445009685872650/68e3fe1b85ab19c0b5999287c93e4e97.png?size=1024"
                             alt=""
                           />
                         </Menu.Button>
@@ -107,7 +115,8 @@ function Navbar({}) {
                           <Menu.Item>
                             {({ active }) => (
                               <a
-                                href="#"
+                                onClick={logout}
+                                href="/"
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                               >
                                 Sign out

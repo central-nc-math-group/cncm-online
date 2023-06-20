@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { Auth } from "../utils/types";
 import toast, { Toaster } from 'react-hot-toast';
 import Navbar from '../components/Navbar/navbar';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
 interface LoginProps {}
 
@@ -14,22 +15,33 @@ interface LoginFields {
   password: string;
 }
 
-const Logup: React.FC<LoginProps> = () => {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const cookies = ctx.req.cookies
+
+  if (cookies.token.length > 0) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+      props:{},
+    };
+  }
+
+  return {props: {}};
+}
+
+const Logup: React.FC<LoginProps> = (
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) => {
+  const auth: Auth = useAuth() as Auth;
   const router = useRouter();
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const auth: Auth = useAuth() as Auth;
-
-  useEffect(() => {
-    if (!!auth.uid) {
-      router.push("/");
-      return;
-    }
-  });
 
   const login = async ({ email, password }: LoginFields) => {
     const error = await auth.login(email, password);
@@ -48,10 +60,8 @@ const Logup: React.FC<LoginProps> = () => {
       });
     
     } else {
-
+      router.push('/')
     }
-
-    console.log(errors.email);
   };
 
   return (

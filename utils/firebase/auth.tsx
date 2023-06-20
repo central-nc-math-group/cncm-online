@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { post } from "../restClient";
 import { Auth } from "../types";
+import nookies from "nookies";
 
 // USE THIS ONLY IN CLIENT-SIDE CONTEXT
 
@@ -37,6 +38,7 @@ function useProvideAuth(): Auth {
   const [user, setUser] = useState<firebase.User>(null);
 
   const login = (email, password) => {
+
     return firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -84,17 +86,31 @@ function useProvideAuth(): Auth {
       });
   };
 
+
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-      } else {
+    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+      if (!user) {
         setUser(null);
+        nookies.set(undefined, 'token', '', { path: '/' });
+      } else {
+        const token = await user.getIdToken();
+
+        setUser(user);
+        nookies.set(undefined, 'token', token, { path: '/' });
       }
     });
 
     return () => unsubscribe();
   });
+
+  useEffect(() => {
+    const handle = setInterval(async () => {
+      if (user) await user.getIdToken(true);
+    }, 10 * 60 * 1000);
+
+    // clean up setInterval
+    return () => clearInterval(handle);
+  }, []);
 
   return {
     uid: user && user.uid,

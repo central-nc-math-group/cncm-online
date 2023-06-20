@@ -1,34 +1,59 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect} from 'react'
 import { post } from '../../utils/restClient'
+import { siteURL } from '../../utils/constants'
 import Navbar from '../../components/Navbar/navbar'
 import { Auth } from '../../utils/types'
 import { useAuth } from '../../utils/firebase/auth'
+import { GetStaticProps } from 'next'
+import nookies from 'nookies'
+import { db, auth } from "../../utils/firebase/firebaseAdmin";
+import { InferGetServerSidePropsType, GetServerSidePropsContext} from 'next';
+import clientPromise from "../../utils/mongo/index";
 
-export default function Profile() {
-  const auth: Auth = useAuth() as Auth;
-  const router = useRouter()
-  const { pid } = router.query
-  const [rating, setRating] = useState(0)
-  const [rank, setRank] = useState(0);
-  const [contests, setContests] = useState(0);
-  const [you, setYou] = useState(false);
-  const image = { uri: "https://cdn.discordapp.com/avatars/197445009685872650/72f4a86416da5e0b73c732efd3b54321.png"}
 
-  const loadProfile = async () => {
-    const problem = await post<string>(`userInfo`,{id:pid,uid:auth.uid});
-    console.log()
-    setRating(problem.value.rating)
-    setContests(problem.value.contests)
-    setRank(problem.value.rank)
-    setYou(problem.value.you)
+// export async function getStaticProps() {
+//   const auth: Auth = useAuth() as Auth;
+//   const router = useRouter()
+//   const { pid } = router.query
+//   const data = await post<string>(`userInfo`,{id:pid,uid:auth.uid});
+
+//   return {
+//     props: { data }
+//   }
+// }
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+
+  try {
+    const cookies = ctx.req.cookies
+    const token = await auth.verifyIdToken(cookies.token);
+
+    // the user is authenticated!
+    const { uid, email } = token;
+    const { pid } = ctx.query;
+
+    const client = await clientPromise;
+    const db = client.db("Users");
+
+    const data = await db
+        .collection("Accounts")
+        .find({name: pid})
+        .limit(1)
+        .toArray();
+
+    return {
+      props: {pid: pid, rating: data[0].rating, contests: data[0].contests, rank: data[0].rank, you: data[0].id == uid},
+    };
+  } catch (e) {
+      return { props: {message: JSON.stringify(e, Object.getOwnPropertyNames(e))} };
   }
-  
-  loadProfile()
 
-  useEffect(() => {
-    loadProfile();
-  });
+};
+
+export default function Profile(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
 
   return (
     <>
@@ -43,32 +68,32 @@ export default function Profile() {
           <div className="flex flex-col items-center mt-5">
             <img
               alt="Victor"
-              src="https://cdn.discordapp.com/avatars/197445009685872650/72f4a86416da5e0b73c732efd3b54321.png"
+              src="https://cdn.discordapp.com/avatars/197445009685872650/68e3fe1b85ab19c0b5999287c93e4e97.png?size=1024"
               className="relative z-20 rounded-full border-6 border-white w-40 h-40"
             />
             <div className="flex mt-5">
               <h3 className="font-body font-bold text-desaturatedBlue text-lg">
-                {pid}
+                {props.pid}
               </h3>
-              <h3 className="font-body text-lg">{you ? "this is you" : "this is not you"}</h3>
+              <h3 className="font-body text-lg">{props.you ? "this is you" : "this is not you"}</h3>
             </div>
           </div>
           <hr className="w-full mt-6" />
           <div className="flex justify-around w-full py-6 px-6">
             <div className="flex w-20 flex-col items-center">
-              <h5 className="font-body font-bold text-desaturatedBlue text-lg">{contests}</h5>
+              <h5 className="font-body font-bold text-desaturatedBlue text-lg">{props.contests}</h5>
               <p className="font-body text-darkGray text-xs tracking-widest mt-1">
                 Contests
               </p>
             </div>
             <div className="flex w-20 flex-col items-center">
-              <h5 className="font-body font-bold text-desaturatedBlue text-lg">{rating}</h5>
+              <h5 className="font-body font-bold text-desaturatedBlue text-lg">{props.rating}</h5>
               <p className="font-body text-darkGray text-xs tracking-widest mt-1">
                 Rating
               </p>
             </div>
             <div className="flex w-20 flex-col items-center">
-              <h5 className="font-body font-bold text-desaturatedBlue text-lg">{rank}</h5>
+              <h5 className="font-body font-bold text-desaturatedBlue text-lg">{props.rank}</h5>
               <p className="font-body text-darkGray text-xs tracking-widest mt-1">
                 Rank
               </p>

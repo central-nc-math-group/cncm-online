@@ -1,4 +1,5 @@
-import { db, auth } from "../../utils/firebase/firebaseAdmin";
+import { auth } from "../../utils/firebase/firebaseAdmin";
+import clientPromise from "../../utils/mongo";
 
 const createUser = async (req, res) => {
   if (!req.body || !req.body.email || !req.body.password) {
@@ -40,23 +41,27 @@ const createUser = async (req, res) => {
     return;
   }
 
-  await db.ref("Users").once("value").then(async function(questionsSnapshot) {
-    var value;
-    var value2;
-    await questionsSnapshot.forEach(function(questionSnapshot) {
-      value = questionSnapshot.child("name").val();
-      value2 = questionSnapshot.child("email").val();
-      
-      if (displayName == value) {
-        res.status(400).send("auth/username-already-exists");
-      }
+  const client = await clientPromise;
+  const db = client.db("Users");
 
-      if (email == value2) {
-        res.status(400).send("auth/email-already-exists");
-      }
+  let usernameQuery = await db
+    .collection("Accounts")
+    .findOne({name: displayName})
 
-    });
-  });
+  let emailQuery = await db
+    .collection("Accounts")
+    .findOne({email: email})
+
+  if (usernameQuery != null) {
+    res.status(400).send("auth/username-already-exists");
+    return;
+  }
+
+  if (emailQuery != null) {
+    res.status(400).send("auth/email-already-exists");
+    return;
+  }
+
 
   auth
     .createUser({
@@ -65,11 +70,11 @@ const createUser = async (req, res) => {
       password,
     })
     .then(async (userRecord) => {
-      await db.ref(`/Users/${userRecord.uid}`).set({
-        username: displayName,
-        email: userRecord.email,
-        rating: 1200,
-      });
+
+
+      let addAcount = db
+        .collection("Accounts")
+        .insertOne({id: userRecord.uid, name: displayName, email: userRecord.email, rating:1200})
       // await db.ref(`/usernames/${displayName}`).set({
       //   uid: userRecord.uid,
       //   email: userRecord.email,

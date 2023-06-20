@@ -8,27 +8,58 @@ import { toast } from "tailwind-toast";
 import { useAuth } from '../utils/firebase/auth'
 import { Auth } from '../utils/types';
 import { post } from '../utils/restClient';
+import { db, auth } from "../utils/firebase/firebaseAdmin";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import clientPromise from '../utils/mongo';
 
-function Leaderboard() {
-  const auth: Auth = useAuth() as Auth;
-  const router = useRouter();
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
+  try {
+    const cookies = ctx.req.cookies
+    const token = await auth.verifyIdToken(cookies.token);
+
+    // the user is authenticated!
+    const { uid, email } = token;
+    const { pid } = ctx.query;
+
+    const client = await clientPromise;
+    const db = client.db("Active");
+
+    const data = await db
+        .collection("Info")
+        .findOne({})
+
+    let response = [];
+
+    let scorersTable = await db
+        .collection("Scores")
+        .find()
+        .sort({totalScore: -1})
+        .toArray()
+
+    for (var i = 0; i < scorersTable.length; i++) {
+        response.push([scorersTable[i].name, scorersTable[i].totalScore, scorersTable[i].scoreData[0].score, scorersTable[i].scoreData[1].score, scorersTable[i].scoreData[2].score, scorersTable[i].scoreData[3].score, scorersTable[i].scoreData[4].score, scorersTable[i].scoreData[5].score, scorersTable[i].scoreData[6].score]);
+    }
+
+    return {
+      props: {data:response},
+    }
+    
+  } catch (e) {
+      return { props: {message: JSON.stringify(e, Object.getOwnPropertyNames(e))} };
+  }
+
+};
+
+function Leaderboard(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
+  console.log(props.data)
   // useEffect(() => {
   //   fetch(`api/spam`).then(res => res.json()).then(json => console.log(json.val));
   // }, []);
-  
-  const [data, setData] = useState([]);
 
 
-  useEffect(() => {
-    loadProblem();
-  });
-
-  const loadProblem = async () => {
-
-    const test = await post<object>(`leaderboard`,{id:1});
-    setData(test.value);
-  };
   // for (let index in data) {
   //   var total = 0
   //   for (let i=1; i < data[index].length; i++) {
@@ -60,7 +91,7 @@ function Leaderboard() {
                 <th scope="col" className="px-6 py-3">P6</th>
                 <th scope="col" className="px-6 py-3">P7</th>
             </tr>
-            {data.map((val, key) => {
+            {props.data.map((val, key) => {
               if (key % 2 == 0) {
 
                 return (

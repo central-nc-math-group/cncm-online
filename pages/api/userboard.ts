@@ -2,6 +2,7 @@ import { db, auth } from "../../utils/firebase/firebaseAdmin";
 import { post } from "../../utils/restClient";
 import { Auth } from "../../utils/types";
 import { useAuth } from "../../utils/firebase/auth";
+import clientPromise from "../../utils/mongo";
 
 const userboard = async (req, res) => {
     if (!req.body || !req.body.uid) {
@@ -10,36 +11,38 @@ const userboard = async (req, res) => {
     }
 
     var uid = req.body.uid;
-    var round = 7;
-    var scorersTable = [];
-    await db.ref("Competitors/Round" + round+"/"+uid).once("value").then(function(questionSnapshot) {
 
-        var name = questionSnapshot.child("name").val();
-        var score = [0,0,0,0,0,0,0]
-        var userscore = 0;
-        
-        if (name != null) {
-            //placehold is 1 to avoid divide by 0
-            for (let n = 1; n < 8; n++) {
-            score[n-1] = questionSnapshot.child("q" + n.toString() + "/Score").val();
+    const client = await clientPromise;
+    const db = client.db("Active");
+    const db2 = client.db("Users");
 
-            if (score[n-1] == null) {
-                score[n-1] = 0
-            }
+    let response = [];
 
-            userscore += score[n-1]
-            }
+    let scorersTable = await db
+        .collection("Scores")
+        .find()
+        .sort({totalScore: -1})
+        .toArray()
 
-            db.ref("Competitors/Round"+round+"/"+uid).update({totalscore: userscore});
-            var rank = questionSnapshot.child("rank/Current").val();
-
-            scorersTable.push([rank, name, userscore, score[0], score[1], score[2], score[3], score[4], score[5], score[6]]);
+    for (var i = 0; i < scorersTable.length; i++) {
+        if (scorersTable[i].id == uid) {
+            response.push([i+1, scorersTable[i].name, scorersTable[i].totalScore, scorersTable[i].scoreData[0].score, scorersTable[i].scoreData[1].score, scorersTable[i].scoreData[2].score, scorersTable[i].scoreData[3].score, scorersTable[i].scoreData[4].score, scorersTable[i].scoreData[5].score, scorersTable[i].scoreData[6].score]);
         }
-    });
+    }
+
+    let user = await db2
+        .collection("Accounts")
+        .findOne({id: uid})
+    
+    if (response.length == 0) {
+        response.push(['-', user.name, 0, 0, 0, 0, 0, 0, 0, 0])
+    }
 
 
 
-    res.status(201).send(scorersTable);
+
+
+    res.status(201).send(response);
 
 };
 

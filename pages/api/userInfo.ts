@@ -1,4 +1,4 @@
-import { db, auth } from "../../utils/firebase/firebaseAdmin";
+import clientPromise from "../../utils/mongo/index";
 
 const userInfo = async (req, res) => {
     if (!req.body || !req.body.id) {
@@ -11,30 +11,24 @@ const userInfo = async (req, res) => {
     
     var taken = false;
     console.log(id)
-    await db.ref("Users").once("value").then(async function(questionsSnapshot) {
-        var value;
-        await questionsSnapshot.forEach(function(questionSnapshot) {
-          value = questionSnapshot.child("name").val();
-        
-          if (id == value) {
-            taken = true;
-            const rating = questionSnapshot.child("rating").val();
-            const contests = questionSnapshot.child("contests").val();
-            const rank = questionSnapshot.child("rank").val();
 
-            var you = (uid === questionSnapshot.key)
-            console.log(you)
-            res.status(200).send({rating: rating, contests: contests, rank: rank, you: you})
-          }
-        });
-      });
-    
+    try {
+      const client = await clientPromise;
+      const db = client.db("Users");
 
-    if (!taken) {
-        res.status(400).send("Not Found")
-    }
+      const movies = await db
+          .collection("Accounts")
+          .find({name: id})
+          .limit(1)
+          .toArray();
+
+      res.json(movies);
+  } catch (e) {
+      console.error(e);
+  }
 };
 
 export default userInfo;
+
 
 

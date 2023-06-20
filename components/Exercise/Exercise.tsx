@@ -46,32 +46,34 @@ export default function Exercise(props) {
 
   useEffect(() => {
     loadProblem();
-  }, []);
+  },[]);
+
   const loadProblem = async () => {
 
-    const id = props.problem;
+    const id = props.num;
 
-    const problem = await post<string>(`getProblem`,{id:id, uid: auth.uid});
+    const problem: any = await post<string>(`getProblem`,{id:id, token: props.token}).then((problem: any) => {
+      setPrompt(problem.value.prompt);
+      setAttempts(problem.value.attempts);
+      setScore(problem.value.score);
+      setImg(problem.value.img)
+      
+      if (problem.value.img) {
+        setImgPath('../images/' + problem.value.imgPath)
+      }
+  
+      if (problem.value.score > 0) {
+        setDisabled(true);
+        setCorrect(true);
+  
+      }
+  
+      if (problem.value.attempts == 0) {
+        setDisabled(true);
+      }
+    });
     
-    
-    console.log(problem)
-    // setAns(problem.answer);
-    setPrompt(problem.value.prompt);
-    setAttempts(problem.value.attempts);
-    setScore(problem.value.score);
-    setImg(problem.value.img)
 
-    if (img) {
-      setImgPath(problem.value.imgPath)
-    }
-    if (score > 0) {
-      setCorrect(true);
-      setDisabled(true);
-    }
-
-    if (attempts == 0) {
-      setDisabled(true);
-    }
 
   };
 
@@ -79,7 +81,7 @@ export default function Exercise(props) {
 
   const checkCorrect = async() => { //snackbar only, this helper can hide the snackbar as one of the button functions
     /* Example */
-    setValue("")
+
     if (attempts == 0) {
       toast.error('You have no attempts remaining', {
         duration: 4000,
@@ -92,7 +94,7 @@ export default function Exercise(props) {
         // Change colors of success/error/loading icon
         // Aria
       });
-    } else if (isNaN(value)) {
+    } else if (! (/\d/.test(value))) {
       toast.error('Your answer must be an integer!', {
         duration: 4000,
         // Styling
@@ -105,8 +107,9 @@ export default function Exercise(props) {
         // Aria
       });
     } else {
-      const data = await post<string>(`submitAnswer`,{id:props.problem, answer: value, uid: auth.uid});
-
+      console.log(props.token);
+      const data = await post<string>(`submitAnswer`,{id: props.num, answer: value, token: props.token});
+      loadProblem();
       if (data.value == "Correct") {
         setCorrect(true)
         setDisabled(true)
@@ -148,7 +151,7 @@ export default function Exercise(props) {
       }
     }
 
-    loadProblem(auth.uid);
+    loadProblem();
   
   }
 
@@ -207,7 +210,7 @@ export default function Exercise(props) {
             </p>
           </div>
           <div className={!img ? "w-0 h-0 invisible" : "flex w-full justify-center m-5"}>
-            <img src={"../images/" + imgPath} width="25%"></img>
+            <img src={imgPath} width="25%"></img>
           </div>
 
         </div>

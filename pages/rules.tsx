@@ -13,32 +13,6 @@ function Rules() {
   const auth: Auth = useAuth() as Auth;
   const router = useRouter();
 
-  // useEffect(() => {
-  //   fetch(`api/spam`).then(res => res.json()).then(json => console.log(json.val));
-  // }, []);
-  
-  const [data, setData] = useState([]);
-
-
-  useEffect(() => {
-    loadProblem();
-  });
-
-  const loadProblem = async () => {
-
-    const test = await post<object>(`leaderboard`,{id:1});
-    setData(test.value);
-  };
-  // for (let index in data) {
-  //   var total = 0
-  //   for (let i=1; i < data[index].length; i++) {
-  //     total += data[index][i]
-  //   } 
-  //   data[index].splice(1,0,total)
-  // }
-  // data.sort(function(a,b) {
-  //   return b[1] - a[1];
-  // })
   
   return (
     <>

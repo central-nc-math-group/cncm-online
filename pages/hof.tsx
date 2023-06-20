@@ -8,57 +8,64 @@ import { toast } from "tailwind-toast";
 import { useAuth } from '../utils/firebase/auth'
 import { Auth } from '../utils/types';
 import { post } from '../utils/restClient';
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import clientPromise from "../utils/mongo/index";
+import { db, auth } from "../utils/firebase/firebaseAdmin";
 
-function HOF() {
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+
+  try {
+    const cookies = ctx.req.cookies
+    const token = await auth.verifyIdToken(cookies.token);
+
+    // the user is authenticated!
+    const { uid, email } = token;
+    const { pid } = ctx.query;
+
+    const client = await clientPromise;
+    const db = client.db("Users");
+
+    const ratingList = await db
+        .collection("Accounts")
+        .find({})
+        .sort({rating: -1})
+        .limit(10)
+        .toArray();
+
+    let data = [];
+
+    for (var i = 0; i < ratingList.length; i++) {
+      data.push([ratingList[i].name, ratingList[i].rating])
+    }
+    return {
+      props: {data: data},
+    };
+  } catch (e) {
+      return { props: {message: JSON.stringify(e, Object.getOwnPropertyNames(e))} };
+  }
+
+};
+
+function HOF(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
   const auth: Auth = useAuth() as Auth;
   const router = useRouter();
 
-  // useEffect(() => {
-  //   fetch(`api/spam`).then(res => res.json()).then(json => console.log(json.val));
-  // }, []);
-  
-  const [data, setData] = useState([]);
-
-
-  useEffect(() => {
-    loadProblem();
-  });
-
-  const loadProblem = async () => {
-
-    const test = await post<object>(`ratingList`,{id:1});
-    setData(test.value);
-  };
-
-  const lawlawl = async () => {
-    const test = await post<object>(`calcElo`,{id:1});
-  }
-  // for (let index in data) {
-  //   var total = 0
-  //   for (let i=1; i < data[index].length; i++) {
-  //     total += data[index][i]
-  //   } 
-  //   data[index].splice(1,0,total)
-  // }
-  // data.sort(function(a,b) {
-  //   return b[1] - a[1];
-  // })
-  
   return (
     <>
       <Navbar/>
 
-
-      <button onClick={lawlawl}>LAWL</button>
       <div className="flex w-auto items-center justify-center">
       <div className={"flex m-5 items-center justify-center shadow-md rounded w-5/6"}>
         <table className={"w-full rounded-md text-lg text-left text-gray-500"}>
+          <tbody>
             <tr className={"rounded-md text-xl text-white uppercase bg-green-500"}>
             <th scope="col" className="px-6 py-3">Rank</th>
                 <th scope="col" className="px-6 py-3">Username</th>
                 <th scope="col" className="px-6 py-3">Rating</th>
             </tr>
-            {data.map((val, key) => {
+            {props.data.map((val, key) => {
               if (key % 2 == 0) {
 
                 return (
@@ -93,6 +100,7 @@ function HOF() {
                 )
               }
             })}
+          </tbody>
         </table>        
       </div>
       </div>
