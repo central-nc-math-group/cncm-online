@@ -43,7 +43,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         .toArray();
 
     return {
-      props: {pid: pid, rating: data[0].rating, contests: data[0].contests, rank: data[0].rank, you: data[0].id == uid},
+      props: {pid: pid, rating: data[0].rating, contests: data[0].contests || null , rank: data[0].rank || null, you: data[0].id == uid},
     };
   } catch (e) {
       return { props: {message: JSON.stringify(e, Object.getOwnPropertyNames(e))} };

@@ -6,7 +6,7 @@ import { useAuth } from '../../utils/firebase/auth';
 import { Auth } from '../../utils/types';
 
 const navigation = [
-    { name: 'Home', href: '/', current: true },
+    { name: 'Home', href: '/', current: true},
     { name: 'Log-In', href: '/login', current: false },
     { name: 'Contest', href: '/contest/active', current: false },
     { name: 'Leaderboard', href: '/leaderboard', current: false },

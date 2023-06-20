@@ -78,7 +78,9 @@ function Leaderboard(
 
       <div className="flex w-auto items-center justify-center">
       <div className={"flex m-5 items-center justify-center shadow-md rounded w-5/6"}>
+
         <table className={"w-full rounded-md text-lg text-left text-gray-500"}>
+          <thead>
             <tr className={"rounded-md text-xl text-white uppercase bg-green-500"}>
             <th scope="col" className="px-6 py-3">Rank</th>
                 <th scope="col" className="px-6 py-3">Username</th>
@@ -91,6 +93,8 @@ function Leaderboard(
                 <th scope="col" className="px-6 py-3">P6</th>
                 <th scope="col" className="px-6 py-3">P7</th>
             </tr>
+            </thead>
+            <tbody>
             {props.data.map((val, key) => {
               if (key % 2 == 0) {
 
@@ -126,6 +130,7 @@ function Leaderboard(
                 )
               }
             })}
+            </tbody>
         </table>        
       </div>
       </div>

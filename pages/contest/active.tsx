@@ -202,6 +202,7 @@ export default function Contest2(
       <div className="flex w-full items-center justify-center">
       <div className={"flex m-5 items-center justify-center shadow-md rounded w-3/4"}>
         <table className={"w-full rounded-md text-lg text-left text-gray-500"}>
+        <thead>
         <tr className={"rounded-md text-xl text-white uppercase bg-green-500"}>
             <th scope="col" className="px-6 py-3">Rank</th>
                 <th scope="col" className="px-6 py-3">Username</th>
@@ -214,7 +215,9 @@ export default function Contest2(
                 <th scope="col" className="px-6 py-3">P6</th>
                 <th scope="col" className="px-6 py-3">P7</th>
             </tr>
-            {props.data.map((val, key) => {
+        </thead>
+      <tbody>
+            {props.data && props.data.map((val, key) => {
 
                 return (
                   <tr className={"bg-gray-100"}>
@@ -231,6 +234,7 @@ export default function Contest2(
                   </tr>
                 )
             })}
+            </tbody>
         </table>        
       </div>
       </div>
