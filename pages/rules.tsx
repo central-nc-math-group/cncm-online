@@ -18,10 +18,10 @@ function Rules() {
     <>
       <Navbar num={3}/>
 
-      <div className="flexbox w-3/4 mx-auto mt-5">
-        <h1 className="font-medium leading-tight text-5xl mt-0 mb-2 text-green-600 m-1/4">Rules</h1>
+      <div className="flexbox w-4/5 sm:w-3/4 mx-auto mt-5">
+        <h1 className="font-medium leading-tight text-3xl sm:text-5xl mt-0 mb-2 text-green-600 m-1/4">Rules</h1>
         <div className="w-full rounded border shadow-lg mt-5">
-            <div className="m-5 overflow-hidden text-lg">
+            <div className="m-5 overflow-hidden text-base sm:text-lg">
                 <ul className="list-disc">
                 <li className=""><b>Contest</b></li>
                     <ul className="ml-8 list-disc"> 
@@ -35,7 +35,7 @@ function Rules() {
             </div>
         </div>
         <div className="w-full rounded border shadow-lg mt-5">
-            <div className="m-5 overflow-hidden text-lg">
+            <div className="m-5 overflow-hidden text-base sm:text-lg">
                 <ul>
                 <li><b>Scoring</b></li>
                     <ul className="ml-8 list-disc">
@@ -53,8 +53,8 @@ function Rules() {
             </div>
             </div>
 
-            <div className="w-full rounded border shadow-lg mt-5 rounded-md">
-            <div className="m-5 overflow-hidden text-lg rounded-md">
+            <div className="w-full rounded border shadow-lg my-5 rounded-md">
+            <div className="m-5 overflow-hidden text-base sm:text-lg rounded-md">
             <strong>Point Values</strong>
             <table className="w-full rounded-md text-sm text-left text-gray-500">
                 <thead className="rounded-md text-xs text-white uppercase bg-green-500">

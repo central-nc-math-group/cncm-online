@@ -212,19 +212,19 @@ export default function Contest2(
 
       <div className="flex w-full items-center justify-center">
       <div className={"flex m-5 items-center justify-center shadow-md rounded w-3/4"}>
-        <table className={"w-full rounded-md text-lg text-left text-gray-500"}>
+        <table className={"w-full rounded-md text-xs sm:text-lg text-left text-gray-500"}>
         <thead>
-        <tr className={"rounded-md text-xl text-white uppercase bg-green-500"}>
-            <th scope="col" className="px-6 py-3">Rank</th>
-                <th scope="col" className="px-6 py-3">Username</th>
-                <th scope="col" className="px-6 py-3">Total</th>
-                <th scope="col" className="px-6 py-3">P1</th>
-                <th scope="col" className="px-6 py-3">P2</th>
-                <th scope="col" className="px-6 py-3">P3</th>
-                <th scope="col" className="px-6 py-3">P4</th>
-                <th scope="col" className="px-6 py-3">P5</th>
-                <th scope="col" className="px-6 py-3">P6</th>
-                <th scope="col" className="px-6 py-3">P7</th>
+        <tr className={"rounded-md text-sm sm:text-xl text-white uppercase bg-green-500"}>
+            <th scope="col" className="px-2 py-2 sm:px-6 sm:py-3">Rank</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">Username</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">Total</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">1</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">2</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">3</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">4</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">5</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">6</th>
+                <th scope="col" className="pl-1 pr-2 py-1 sm:px-6 sm:py-3">7</th>
             </tr>
         </thead>
       <tbody>
@@ -234,11 +234,11 @@ export default function Contest2(
                   <tr className={"bg-gray-100"}>
                     {val.map((val2, key2) => {
                       if (key2 == 1) {
-                        return (<th scope="row" className="px-6 py-4 font-medium whitespace-nowrap"><a href={"/profile/"+val2}>{val2}</a></th>)
+                        return (<th scope="row" className="px-1 py-1 sm:px-6 sm:py-3 font-medium whitespace-nowrap"><a href={"/profile/"+val2}>{val2}</a></th>)
                       } else if (key2 == 2) {
-                        return (<td className="px-6 py-4"><strong>{val2}</strong></td>)
+                        return (<td className="px-1 py-1 sm:px-6 sm:py-3"><strong>{val2}</strong></td>)
                       } else {
-                        return (<td className="px-6 py-4">{val2}</td>)
+                        return (<td className="px-1 py-1 sm:px-6 sm:py-3">{val2}</td>)
                       }
 
                     })}

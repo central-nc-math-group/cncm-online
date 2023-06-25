@@ -80,19 +80,19 @@ function Leaderboard(
       <div className="flex w-auto items-center justify-center">
       <div className={"flex m-5 items-center justify-center shadow-md rounded w-5/6"}>
 
-        <table className={"w-full rounded-md text-lg text-left text-gray-500"}>
+        <table className={"w-full rounded-md text-xs sm:text-lg text-left text-gray-500"}>
           <thead>
-            <tr className={"rounded-md text-xl text-white uppercase bg-green-500"}>
-            <th scope="col" className="px-6 py-3">Rank</th>
-                <th scope="col" className="px-6 py-3">Username</th>
-                <th scope="col" className="px-6 py-3">Total</th>
-                <th scope="col" className="px-6 py-3">P1</th>
-                <th scope="col" className="px-6 py-3">P2</th>
-                <th scope="col" className="px-6 py-3">P3</th>
-                <th scope="col" className="px-6 py-3">P4</th>
-                <th scope="col" className="px-6 py-3">P5</th>
-                <th scope="col" className="px-6 py-3">P6</th>
-                <th scope="col" className="px-6 py-3">P7</th>
+            <tr className={"rounded-md text-xs sm:text-lg text-white uppercase bg-green-500"}>
+            <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">Rank</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">Username</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">Total</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">1</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-33">2</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">3</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">4</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">5</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">6</th>
+                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-33">7</th>
             </tr>
             </thead>
             <tbody>
@@ -101,14 +101,14 @@ function Leaderboard(
 
                 return (
                   <tr className={"bg-gray-100"}>
-                    <td className="px-6 py-4">{key+1}</td>
+                    <td className="px-1 py-1 sm:px-6 sm:py-3">{key+1}</td>
                     {val.map((val2, key2) => {
                       if (key2 == 0) {
-                        return (<th scope="row" className="px-6 py-4 font-medium whitespace-nowrap"><a href={"/profile/"+val2}>{val2}</a></th>)
+                        return (<th scope="row" className="px-1 py-1 sm:px-6 sm:py-3 font-medium whitespace-nowrap"><a href={"/profile/"+val2}>{val2}</a></th>)
                       } else if (key2 == 1) {
-                        return (<td className="px-6 py-4"><strong>{val2}</strong></td>)
+                        return (<td className="px-1 py-1 sm:px-6 sm:py-34"><strong>{val2}</strong></td>)
                       } else {
-                        return (<td className="px-6 py-4">{val2}</td>)
+                        return (<td className="px-1 py-1 sm:px-6 sm:py-3">{val2}</td>)
                       }
 
                     })}
