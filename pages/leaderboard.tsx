@@ -73,7 +73,7 @@ function Leaderboard(
   
   return (
     <>
-      <Navbar/>
+      <Navbar num={3}/>
 
 
       <div className="flex w-auto items-center justify-center">

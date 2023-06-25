@@ -18,7 +18,7 @@ export default function Home() {
   
   return (
     <>
-      <Navbar/>
+        <Navbar num={0}/>
       <div className="flex h-80 w-full bg-green-600 mx-auto md-5 items-center justify-center text-6xl text-white">
           <strong>CNCM</strong>Online
       </div>

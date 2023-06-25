@@ -54,7 +54,7 @@ function HOF(
 
   return (
     <>
-      <Navbar/>
+      <Navbar num={7}/>
 
       <div className="flex w-auto items-center justify-center">
       <div className={"flex m-5 items-center justify-center shadow-md rounded w-5/6"}>

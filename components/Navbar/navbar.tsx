@@ -6,14 +6,14 @@ import { useAuth } from '../../utils/firebase/auth';
 import { Auth } from '../../utils/types';
 
 const navigation = [
-    { name: 'Home', href: '/', current: true},
+    { name: 'Home', href: '/', current: false},
     { name: 'Log-In', href: '/login', current: false },
     { name: 'Contest', href: '/contest/active', current: false },
     { name: 'Leaderboard', href: '/leaderboard', current: false },
     { name: 'Rules', href: '/rules', current: false },
     { name: 'Sponsors', href: '#', current: false },
     { name: 'Archive', href: '#', current: false },
-    { name: 'Hall of Fame', href: '/hof', current: false },
+    { name: 'Hall of Fame', href: '/hall-of-fame', current: false },
   ]
   
   function classNames(...classes) {
@@ -21,9 +21,11 @@ const navigation = [
   }
 
   
-function Navbar({}) {
+function Navbar(props) {
 
     const auth: Auth = useAuth() as Auth;
+
+    navigation[props.num].current = true;
 
     const logout = async () => {
       auth.logout();
@@ -99,16 +101,6 @@ function Navbar({}) {
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                               >
                                 Your Profile
-                              </a>
-                            )}
-                          </Menu.Item>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <a
-                                href="#"
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                              >
-                                Settings
                               </a>
                             )}
                           </Menu.Item>

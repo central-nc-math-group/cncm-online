@@ -66,7 +66,7 @@ const Logup: React.FC<LoginProps> = (
 
   return (
     <>
-    <Navbar/>
+    <Navbar num={1}/>
   <section className="flex items-center justify-center w-screen h-full gradient-form md:h-screen md:w-screen">
 
     <div className="container py-12 px-6 h-full">
