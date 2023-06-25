@@ -16,11 +16,16 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   try {
     const cookies = ctx.req.cookies
-    const token = await auth.verifyIdToken(cookies.token);
 
-    // the user is authenticated!
-    const { uid, email } = token;
-    const { pid } = ctx.query;
+    if (cookies.token.length > 0) {
+      const token = await auth.verifyIdToken(cookies.token);
+          // the user is authenticated!
+      const { uid, email } = token;
+      const { pid } = ctx.query;
+    }
+
+
+
 
     const client = await clientPromise;
     const db = client.db("Users");
@@ -54,7 +59,7 @@ function HOF(
 
   return (
     <>
-      <Navbar num={7}/>
+      <Navbar num={4}/>
 
       <div className="flex w-auto items-center justify-center">
       <div className={"flex m-5 items-center justify-center shadow-md rounded w-5/6"}>

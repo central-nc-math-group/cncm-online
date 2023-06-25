@@ -94,8 +94,6 @@ const createUser = async (req, res) => {
     })
     .catch((error) => {
       res.status(400).send(error.code);
-      console.log(error.code);
-      console.log(error);
     });
 
 };

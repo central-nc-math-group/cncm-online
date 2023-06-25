@@ -40,5 +40,5 @@ export const verifyIdToken = (token) =>
     });
 
 export const sendEmailVerification = async (uid, email, username, req) => {
-  console.log("yo");
+
 };

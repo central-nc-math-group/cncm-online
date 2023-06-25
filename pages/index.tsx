@@ -12,9 +12,6 @@ export default function Home() {
   const auth: Auth = useAuth() as Auth;
   const router = useRouter();
 
-  useEffect(() => {
-    fetch(`api/spam`).then(res => res.json()).then(json => console.log(json.val));
-  }, []);
   
   return (
     <>
@@ -39,16 +36,7 @@ export default function Home() {
         <ContestTile title="CNCM Online Spring 2021" date="March 31st, 2021" time="2:00 - 3:00 PM ET"/>
         <ContestTile title="CNCM Online Round 3" date="November 7, 2020" time="2:00 - 3:00 PM ET"/>
       </div>
-      <div>
-        {!!auth.uid ? (
-          <button onClick={auth.logout}>Log Out</button>
-        ) : (
-          <>
-            <button onClick={() => router.push("/login")}>Log In</button>
-            <button onClick={() => router.push("/signup")}>Sign Up</button>
-          </>
-        )}
-      </div>
+
 
 
     </>

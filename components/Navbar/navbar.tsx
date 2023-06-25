@@ -7,12 +7,9 @@ import { Auth } from '../../utils/types';
 
 const navigation = [
     { name: 'Home', href: '/', current: false},
-    { name: 'Log-In', href: '/login', current: false },
     { name: 'Contest', href: '/contest/active', current: false },
     { name: 'Leaderboard', href: '/leaderboard', current: false },
     { name: 'Rules', href: '/rules', current: false },
-    { name: 'Sponsors', href: '#', current: false },
-    { name: 'Archive', href: '#', current: false },
     { name: 'Hall of Fame', href: '/hall-of-fame', current: false },
   ]
   
@@ -25,7 +22,14 @@ function Navbar(props) {
 
     const auth: Auth = useAuth() as Auth;
 
-    navigation[props.num].current = true;
+
+    if (props.num >= 0) {
+      for (var i = 0; i < navigation.length; i++) {
+        navigation[i].current = false;
+      }
+      navigation[props.num].current = true;
+    }
+
 
     const logout = async () => {
       auth.logout();
@@ -74,7 +78,7 @@ function Navbar(props) {
 
                     {/* Profile dropdown */}
                     <Menu as="div" className="ml-3 relative">
-                      <div>
+                      <div className={classNames((auth.username == null) ? "hidden" : undefined)}>
                         <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                           <span className="sr-only">Open user menu</span>
                           <img
@@ -83,6 +87,19 @@ function Navbar(props) {
                             alt=""
                           />
                         </Menu.Button>
+                      </div>
+                      <div className={classNames((auth.username != null) ? "hidden" : undefined)}>
+                      <a
+                            key='Log-In'
+                            href='/login'
+                            className={classNames(
+                              (props.num == -1) ? 'bg-green-900 text-white' : 'text-white hover:bg-green-700 hover:text-white',
+                              'px-3 py-2 rounded-md text-sm font-medium'
+                            )}
+                            aria-current={(props.num == -1) ? 'page' : undefined}
+                          >
+                            Sign In
+                          </a>
                       </div>
                       <Transition
                         as={Fragment}

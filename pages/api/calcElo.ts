@@ -69,7 +69,6 @@ const calcElo = async (req, res) => {
 
             ratings[i].s = (1.0 * ratings[i].score)/(1.0 * totalScore)
 
-            console.log(ratings[i].s)
             var newRating = Math.floor(ratings[i].rating + K * (ratings.length - 1) * (ratings[i].s - ratings[i].ea));
             await db.ref(`Users/${ratings[i].id}/rating`).set(newRating);
             await db.ref(`Users/${ratings[i].id}/contests`).set(ratings[i].contests);

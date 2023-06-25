@@ -20,6 +20,17 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   try {
     const cookies = ctx.req.cookies
+
+    if (cookies.token.length == 0) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/login",
+        },
+        props:{},
+      };
+    }
+
     const token = await auth.verifyIdToken(cookies.token);
 
     // the user is authenticated!
@@ -119,7 +130,7 @@ export default function Contest2(
     if (contestStart) {
       const timer = setTimeout(() => {
         setTimeLeft(calculateTimeLeft(props.endTime));
-        console.log(Object.keys(calculateTimeLeft(props.endTime)).length === 0)
+
         if (Object.keys(calculateTimeLeft(props.endTime)).length === 0) {
           setContestEnd(true)
         }
@@ -129,7 +140,7 @@ export default function Contest2(
     } else {
       const timer = setTimeout(() => {
         setTimeLeft(calculateTimeLeft(props.startTime));
-        console.log(Object.keys(calculateTimeLeft(props.startTime)).length === 0)
+
         if (Object.keys(calculateTimeLeft(props.startTime)).length === 0) {
           setContestStart(true)
         }
@@ -146,7 +157,7 @@ export default function Contest2(
   
   return (
     <>
-      <Navbar/>
+      <Navbar num={1}/>
 
         <div id="startTimer" className={contestStart ? "invisible w-0 h-0" : "min-w-screen flex items-center justify-center px-5 py-5"}>
           <div className="text-gray-500">

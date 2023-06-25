@@ -16,11 +16,12 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   try {
     const cookies = ctx.req.cookies
-    const token = await auth.verifyIdToken(cookies.token);
-
-    // the user is authenticated!
-    const { uid, email } = token;
-    const { pid } = ctx.query;
+    if (cookies.token.length > 0) {
+      const token = await auth.verifyIdToken(cookies.token);
+          // the user is authenticated!
+      const { uid, email } = token;
+      const { pid } = ctx.query;
+    }
 
     const client = await clientPromise;
     const db = client.db("Active");
@@ -54,7 +55,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 function Leaderboard(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
-  console.log(props.data)
+
   // useEffect(() => {
   //   fetch(`api/spam`).then(res => res.json()).then(json => console.log(json.val));
   // }, []);
@@ -73,7 +74,7 @@ function Leaderboard(
   
   return (
     <>
-      <Navbar num={3}/>
+      <Navbar num={2}/>
 
 
       <div className="flex w-auto items-center justify-center">

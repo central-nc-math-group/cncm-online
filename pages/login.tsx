@@ -45,7 +45,7 @@ const Logup: React.FC<LoginProps> = (
 
   const login = async ({ email, password }: LoginFields) => {
     const error = await auth.login(email, password);
-    console.log(error)
+
     if (!!error) {
       toast.error(error, {
         duration: 4000,
@@ -66,7 +66,7 @@ const Logup: React.FC<LoginProps> = (
 
   return (
     <>
-    <Navbar num={1}/>
+    <Navbar num={-1}/>
   <section className="flex items-center justify-center w-screen h-full gradient-form md:h-screen md:w-screen">
 
     <div className="container py-12 px-6 h-full">

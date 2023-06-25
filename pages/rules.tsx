@@ -16,7 +16,7 @@ function Rules() {
   
   return (
     <>
-      <Navbar/>
+      <Navbar num={3}/>
 
       <div className="flexbox w-3/4 mx-auto mt-5">
         <h1 className="font-medium leading-tight text-5xl mt-0 mb-2 text-green-600 m-1/4">Rules</h1>

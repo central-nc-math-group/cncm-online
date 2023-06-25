@@ -107,7 +107,7 @@ export default function Exercise(props) {
         // Aria
       });
     } else {
-      console.log(props.token);
+
       const data = await post<string>(`submitAnswer`,{id: props.num, answer: value, token: props.token});
       loadProblem();
       if (data.value == "Correct") {

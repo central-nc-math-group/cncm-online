@@ -27,10 +27,15 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   try {
     const cookies = ctx.req.cookies
-    const token = await auth.verifyIdToken(cookies.token);
+    let uid = 1;
 
+    if (cookies.token.length > 0) {
+      const token = await auth.verifyIdToken(cookies.token);
+      const {x, y} = token;
+      uid = x;
+    }
     // the user is authenticated!
-    const { uid, email } = token;
+
     const { pid } = ctx.query;
 
     const client = await clientPromise;
@@ -75,7 +80,7 @@ export default function Profile(
               <h3 className="font-body font-bold text-desaturatedBlue text-lg">
                 {props.pid}
               </h3>
-              <h3 className="font-body text-lg">{props.you ? "this is you" : "this is not you"}</h3>
+              <h3 className="font-body text-lg">{props.you ? "" : ""}</h3>
             </div>
           </div>
           <hr className="w-full mt-6" />

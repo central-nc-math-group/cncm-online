@@ -10,7 +10,7 @@ const userInfo = async (req, res) => {
     const uid = req.body.uid;
     
     var taken = false;
-    console.log(id)
+
 
     try {
       const client = await clientPromise;
