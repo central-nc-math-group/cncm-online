@@ -73,7 +73,7 @@ export default function Profile(
           <div className="flex flex-col items-center mt-5">
             <img
               alt="Victor"
-              src="https://cdn.discordapp.com/avatars/197445009685872650/68e3fe1b85ab19c0b5999287c93e4e97.png?size=1024"
+              src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
               className="relative z-20 rounded-full border-6 border-white w-40 h-40"
             />
             <div className="flex mt-5">

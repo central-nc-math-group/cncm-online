@@ -189,28 +189,28 @@ export default function Exercise(props) {
         </div>
 
       </div> */}
-      <div className={"w-3/4 mx-auto rounded overflow-hidden border shadow-lg mt-5"}>
+      <div className={"w-4/5 sm:w-3/4 mx-auto rounded overflow-hidden border shadow-lg mt-5"}>
 
         <div className={"relative px-6 py-4 w-full"}>
-          <div className={"relative object-center w-auto"}>
-            <div className={"relative font-bold text-2xl mb-2 float-left"}>Problem {props.num}</div>
-            <div className="absolute right-1">
-              <div className="float-right rounded-full px-3 bg-green-100 text-green-600 font-medium text-lg">
+          <div className={"relative object-center w-auto mb-12 sm:mb-0"}>
+            <div className={"relative font-bold text-base sm:text-2xl mb-2 float-left"}>Problem {props.num}</div>
+            <div className="absolute right-1 w-1/2 sm:w-full">
+              <div className="float-right rounded-full px-3 bg-green-100 text-green-600 font-medium text-xs sm:text-lg">
                   <strong>Score:</strong> {score}
                 </div>
-              <div className="float-right rounded-full px-3 bg-blue-100 text-blue-600 font-medium text-lg mx-3">
+              <div className="float-right rounded-full px-3 bg-blue-100 text-blue-600 font-medium text-xs sm:text-lg mt-1 sm:mt-0 sm:mx-3">
                 <strong>Attempts:</strong> {attempts}
               </div>
             </div>
  
           </div>
           <div className={"flex w-full"}>
-            <p className={"text-l text-gray-700 text-base"}>
+            <p className={"text-l text-gray-700 text-sm sm:text-base"}>
               <Latex>{prompt}</Latex>
             </p>
           </div>
           <div className={!img ? "w-0 h-0 invisible" : "flex w-full justify-center m-5"}>
-            <img src={imgPath} width="25%"></img>
+            <img src={imgPath} width="50%" height="10px"></img>
           </div>
 
         </div>

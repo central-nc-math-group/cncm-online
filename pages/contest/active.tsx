@@ -162,24 +162,24 @@ export default function Contest2(
         <div id="startTimer" className={contestStart ? "invisible w-0 h-0" : "min-w-screen flex items-center justify-center px-5 py-5"}>
           <div className="text-gray-500">
               <h1 className="text-3xl text-center mb-3 font-extralight">The next CNCM Online round will start </h1>
-              <div className="text-6xl text-center flex w-full items-center justify-center">
+              <div className="text-xl sm:text-6xl text-center flex w-full items-center justify-center">
                   <div className="text-2xl mr-1 font-extralight">in</div>
-                  <div className="w-24 mx-1 p-2 bg-green-500 text-white rounded-lg">
+                  <div className="w-18 sm:w-24 mx-1 p-2 bg-green-500 text-white rounded-lg">
                       <div className="font-mono leading-none" x-text="days">{timeLeft.days}</div>
-                      <div className="font-mono uppercase text-sm leading-none">Days</div>
+                      <div className="font-mono uppercase text-xs sm:text-sm leading-none">Days</div>
                   </div>
-                  <div className="w-24 mx-1 p-2 bg-green-500 text-white rounded-lg">
+                  <div className="w-18 sm:w-24 mx-1 p-2 bg-green-500 text-white rounded-lg">
                       <div className="font-mono leading-none" x-text="hours">{timeLeft.hours}</div>
-                      <div className="font-mono uppercase text-sm leading-none">Hours</div>
+                      <div className="font-mono uppercase text-xs sm:text-sm leading-none">Hours</div>
                   </div>
-                  <div className="w-24 mx-1 p-2 bg-green-500 text-white rounded-lg">
+                  <div className="w-18 sm:w-24 mx-1 p-2 bg-green-500 text-white rounded-lg">
                       <div className="font-mono leading-none" x-text="minutes">{timeLeft.minutes}</div>
-                      <div className="font-mono uppercase text-sm leading-none">Minutes</div>
+                      <div className="font-mono uppercase text-xs sm:text-sm leading-none">Minutes</div>
                   </div>
-                  <div className="text-2xl mx-1 font-extralight">and</div>
-                  <div className="w-24 mx-1 p-2 bg-green-500 text-white rounded-lg">
+                  <div className="text-lg sm:text-2xl mx-1 font-extralight">and</div>
+                  <div className="w-18 sm:w-24 mx-1 p-2 bg-green-500 text-white rounded-lg">
                       <div className="font-mono leading-none" x-text="seconds">{timeLeft.seconds}</div>
-                      <div className="font-mono uppercase text-sm leading-none">Seconds</div>
+                      <div className="font-mono uppercase text-xs sm:text-sm leading-none">Seconds</div>
                   </div>
               </div>
           </div>

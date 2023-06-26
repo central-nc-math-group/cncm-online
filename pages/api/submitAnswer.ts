@@ -81,7 +81,7 @@ const submitAnswer = async (req, res) => {
       .collection("Scores")
       .findOne({id: uid})
       
-    if (!solved || (distance > 0 && distance2 < 0)) {
+    if (!solved && (distance > 0 && distance2 < 0)) {
 
         //null means there are 5 attempts
         var attempts = reference.scoreData[id-1].attempts;
