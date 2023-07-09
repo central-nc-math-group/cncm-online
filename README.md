@@ -1,7 +1,7 @@
 # CNCM Online Platform
 
 [![CNCMOnline Logo](https://media.discordapp.net/attachments/691412588654886932/1127723945269927997/image.png?width=1440&height=405)](https://cncm-online.vercel.app)
-[![CNCM Discord Invite](https://img.shields.io/discord/745037351163527189?color=%237289DA&label=chat&logo=discord&logoColor=white)](https://discord.com/invite/ewQeEMU)
+[![CNCM Discord Shield](https://discordapp.com/api/guilds/496450669666893844/widget.png?style=shield)](https://discord.com/invite/ewQeEMU)
 
 CNCM Online offers a new way to compete in math contests. Participate in this battle of speed and accuracy, where you get immediate feedback on your submissions. The faster you solve it, the more points you get!
 
