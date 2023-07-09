@@ -1,34 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CNCM Online Platform
 
-## Getting Started
+[![CNCMOnline Logo](https://media.discordapp.net/attachments/691412588654886932/1127723945269927997/image.png?width=1440&height=405)](https://cncm-online.vercel.app)
+[![CNCM Discord Invite](https://img.shields.io/discord/745037351163527189?color=%237289DA&label=chat&logo=discord&logoColor=white)](https://discord.com/invite/ewQeEMU)
 
-First, run the development server:
+CNCM Online offers a new way to compete in math contests. Participate in this battle of speed and accuracy, where you get immediate feedback on your submissions. The faster you solve it, the more points you get!
+
+## Features
+
+- Secure user authentication and authorization
+- Real-time scoring and feedback functionality
+- Live leaderboard during contests
+- Modern user interface design implemented with Next.js and Tailwind CSS
+- Responsive design for optimal user experience across different devices
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/central-nc-math-group/cncm-online.git
+```
+
+2. Install the dependencies:
+
+```bash
+cd cncm-online
+npm install
+```
+
+3. Set up the required environment variables by creating a `.env` file and populating it with your Firebase and MongoDB credentials. Use the `.env.example` file as a reference.
+
+4. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Contributing
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+We welcome contributions to the CNCM Online project. To contribute, please follow these steps:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make the necessary changes and commit them.
+4. Push the changes to your forked repository.
+5. Submit a pull request detailing the changes you have made.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Please ensure that your code follows the project's coding conventions and includes appropriate test coverage.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
