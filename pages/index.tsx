@@ -31,7 +31,7 @@ export default function Home() {
       </div>
       <div className="flexbox w-4/5 mx-auto mt-5">
         <h1 className="font-medium leading-tight text-3xl sm:text-5xl mt-0 mb-2 text-green-600 m-1/4">UPCOMING</h1>
-        <ContestTile title="CNCM Mock AMC 8" date="March 9th, 2024" time="2:00 - 3:00 PM ET"/>
+        <ContestTile title="CNCM Mock AMC 8" date="March 9th, 2024" time="3:00 - 3:40 PM ET"/>
         <h1 className="font-medium leading-tight text-3xl sm:text-5xl mt-0 mb-2 text-green-600 m-1/4">FINISHED</h1>
         <ContestTile title="CNCM Online Fall 2021" date="August 23rd, 2021" time="2:00 - 3:00 PM ET"/>
         <ContestTile title="CNCM Online Spring 2021" date="March 31st, 2021" time="2:00 - 3:00 PM ET"/>
