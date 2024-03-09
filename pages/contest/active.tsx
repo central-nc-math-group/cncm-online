@@ -16,6 +16,8 @@ import clientPromise from "../../utils/mongo/index";
 import { db, auth } from "../../utils/firebase/firebaseAdmin";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 
+let N = 25;
+
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
   try {
@@ -69,7 +71,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
     for (var i = 0; i < scorersTable.length; i++) {
         if (scorersTable[i].id == uid) {
-            response.push([i+1, scorersTable[i].name, scorersTable[i].totalScore, scorersTable[i].scoreData[0].score, scorersTable[i].scoreData[1].score, scorersTable[i].scoreData[2].score, scorersTable[i].scoreData[3].score, scorersTable[i].scoreData[4].score, scorersTable[i].scoreData[5].score, scorersTable[i].scoreData[6].score]);
+          let scoreRow = [i+1, scorersTable[i].name, scorersTable[i].totalScore];
+          for (var j = 0; j < N; j++) scoreRow.push(scorersTable[i].scoreData[j].score);
+          response.push(scoreRow);
         }
     }
 
@@ -78,7 +82,9 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         .findOne({id: uid})
 
     if (response.length == 0) {
-        response.push(['-', user.name, 0, 0, 0, 0, 0, 0, 0, 0])
+      let blankRow = ['-', user.name, 0]
+      for (var i = 0; i < N; i++) blankRow.push(0);
+      response.push(blankRow);
     }
 
     return {
@@ -118,6 +124,7 @@ export default function Contest2(
   const [contestStart, setContestStart] = useState(props.start);
   const [contestEnd, setContestEnd] = useState(props.end);
 
+
   const problems = [];
 
   const loadUserBoard = async () => {
@@ -154,7 +161,7 @@ export default function Contest2(
 
   timer();
 
-  
+
   return (
     <>
       <Navbar num={1}/>
@@ -218,13 +225,35 @@ export default function Contest2(
             <th scope="col" className="px-2 py-2 sm:px-6 sm:py-3">Rank</th>
                 <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">Username</th>
                 <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">Total</th>
-                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">1</th>
-                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">2</th>
-                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">3</th>
-                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">4</th>
-                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">5</th>
-                <th scope="col" className="px-1 py-1 sm:px-6 sm:py-3">6</th>
-                <th scope="col" className="pl-1 pr-2 py-1 sm:px-6 sm:py-3">7</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">1</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">2</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">3</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">4</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">5</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">6</th>
+
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">7</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">8</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">9</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">10</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">11</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">12</th>
+
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">13</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">14</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">15</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">16</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">17</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">18</th>
+
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">19</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">20</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">21</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">22</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">23</th>
+                <th scope="col" className="px-1 py-1 sm:px-3 sm:py-3">24</th>
+
+                <th scope="col" className="pl-1 pr-2 py-1 sm:px-3 sm:py-3">25</th>
             </tr>
         </thead>
       <tbody>
@@ -234,11 +263,11 @@ export default function Contest2(
                   <tr className={"bg-gray-100"}>
                     {val.map((val2, key2) => {
                       if (key2 == 1) {
-                        return (<th scope="row" className="px-1 py-1 sm:px-6 sm:py-3 font-medium whitespace-nowrap"><a href={"/profile/"+val2}>{val2}</a></th>)
+                        return (<th scope="row" key={key2} className="px-1 py-1 sm:px-6 sm:py-3 font-medium whitespace-nowrap"><a href={"/profile/"+val2}>{val2}</a></th>)
                       } else if (key2 == 2) {
-                        return (<td className="px-1 py-1 sm:px-6 sm:py-3"><strong>{val2}</strong></td>)
+                        return (<td key={key2} className="px-1 py-1 sm:px-6 sm:py-3"><strong>{val2}</strong></td>)
                       } else {
-                        return (<td className="px-1 py-1 sm:px-6 sm:py-3">{val2}</td>)
+                        return (<td key={key2} className="px-1 py-1 sm:px-3 sm:py-3">{val2}</td>)
                       }
 
                     })}
@@ -251,7 +280,7 @@ export default function Contest2(
       </div>
       <div className={(contestStart && !contestEnd) ? "mb-10 visible" : "mb-10 invisible"}>
         {[...Array(props.num)].map((x, i) =>
-          <Exercise num={(i+1)} token={props.token}/>
+          <Exercise key={i} num={(i+1)} token={props.token}/>
         )}
       </div>
 

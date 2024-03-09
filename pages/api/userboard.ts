@@ -4,6 +4,8 @@ import { Auth } from "../../utils/types";
 import { useAuth } from "../../utils/firebase/auth";
 import clientPromise from "../../utils/mongo";
 
+let N = 25;
+
 const userboard = async (req, res) => {
     if (!req.body || !req.body.uid) {
         res.status(400).send("missing-argument");
@@ -26,7 +28,9 @@ const userboard = async (req, res) => {
 
     for (var i = 0; i < scorersTable.length; i++) {
         if (scorersTable[i].id == uid) {
-            response.push([i+1, scorersTable[i].name, scorersTable[i].totalScore, scorersTable[i].scoreData[0].score, scorersTable[i].scoreData[1].score, scorersTable[i].scoreData[2].score, scorersTable[i].scoreData[3].score, scorersTable[i].scoreData[4].score, scorersTable[i].scoreData[5].score, scorersTable[i].scoreData[6].score]);
+            let scoreRow = [i+1, scorersTable[i].name, scorersTable[i].totalScore];
+            for (var j = 0; j <= N; j++) scoreRow.push(scorersTable[i].scoreData[j].score);
+            response.push(scoreRow);
         }
     }
 
@@ -35,7 +39,9 @@ const userboard = async (req, res) => {
         .findOne({id: uid})
     
     if (response.length == 0) {
-        response.push(['-', user.name, 0, 0, 0, 0, 0, 0, 0, 0])
+        let blankRow = ['-', user.name, 0]
+        for (var i = 0; i < N; i++) blankRow.push(0);
+        response.push(blankRow);
     }
 
 

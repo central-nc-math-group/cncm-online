@@ -37,7 +37,7 @@ export default function Exercise(props) {
   const [disabled, setDisabled] = useState(false);
   const [value, setValue] = useState("");
   const [msg, setMsg] = useState("");
-  const [attempts, setAttempts] = useState(5);
+  const [attempts, setAttempts] = useState(1);
   const [score, setScore] = useState(0);
   
   const [prompt, setPrompt] = useState(props.prompt);

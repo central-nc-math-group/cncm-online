@@ -23,7 +23,7 @@ const getProblem = async (req, res) => {
 
   const response = await fetch("http://worldtimeapi.org/api/timezone/America/New_York");
   const jsonData = await response.json();
-  const timeString = jsonData.datetime.substring(0,19) + "-04:00"
+  const timeString = jsonData.datetime.substring(0,19) + "-05:00"
 
   const client = await clientPromise;
   const db = client.db("Active");
@@ -47,7 +47,7 @@ const getProblem = async (req, res) => {
     .findOne({id: id})
 
   var solved = false;
-  var attempts = 5;
+  var attempts = 1;
   var score = 0;
   var img = false;
 
