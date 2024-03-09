@@ -12,7 +12,7 @@ const submitAnswer = async (req, res) => {
 
     const response = await fetch("http://worldtimeapi.org/api/timezone/America/New_York");
     const jsonData = await response.json();
-    const timeString = jsonData.datetime.substring(0,19) + "-04:00"
+    const timeString = jsonData.datetime.substring(0,19) + "-05:00"
 
     const {
         id,
@@ -68,7 +68,7 @@ const submitAnswer = async (req, res) => {
           .updateOne(
             {id: uid},
             { '$push' : {scoreData: 
-              {id: (i+1), solved: false, answerTimes: [], answers: [], attempts: 5, score: 0}
+              {id: (i+1), solved: false, answerTimes: [], answers: [], attempts: 1, score: 0}
           }}
         )
       }
@@ -116,16 +116,16 @@ const submitAnswer = async (req, res) => {
 
             if (answer == question.answer) {
 
-              var newscore = Math.floor(question.points * (0.5 + 0.5 * ((contest.duration - scoreTime) / contest.duration)) - contest.penalty * (4 - attempts))
+              // var newscore = Math.floor(question.points * (0.5 + 0.5 * ((contest.duration - scoreTime) / contest.duration)) - contest.penalty * (4 - attempts))
 
-              var changescore = Math.floor(question.points * (0.5 + 0.5 * ((contest.duration - scoreTime) / contest.duration)))
+              // var changescore = Math.floor(question.points * (0.5 + 0.5 * ((contest.duration - scoreTime) / contest.duration)))
 
-              totalscore += changescore;
+              // totalscore += changescore;
 
-    
+              totalscore += 1;
               const result = await db
                 .collection("Scores")
-                .updateOne({id: uid, 'scoreData.id': id}, {$set: {'scoreData.$.score': newscore, 'scoreData.$.solved': true, 'scoreData.$.attempts': attempts}})
+                .updateOne({id: uid, 'scoreData.id': id}, {$set: {'scoreData.$.score': 1, 'scoreData.$.solved': true, 'scoreData.$.attempts': attempts}})
               
               const result2 = await db
                 .collection("Scores")
@@ -134,12 +134,12 @@ const submitAnswer = async (req, res) => {
 
               res.status(200).send("Correct")
             } else {
-              var newscore = -1 * contest.penalty * (5 - attempts)
-              totalscore -= contest.penalty;
+              // var newscore = -1 * contest.penalty * (5 - attempts)
+              // totalscore -= contest.penalty;
 
               const result = await db
                 .collection("Scores")
-                .updateOne({id: uid, 'scoreData.id': id}, {$set: {'scoreData.$.score': newscore, 'scoreData.$.attempts': attempts}})
+                .updateOne({id: uid, 'scoreData.id': id}, {$set: {'scoreData.$.score': 0, 'scoreData.$.attempts': attempts}})
               
                 const result2 = await db
                 .collection("Scores")

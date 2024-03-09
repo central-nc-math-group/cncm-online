@@ -9,7 +9,8 @@ const leaderboard = async (req, res) => {
         return;
     }
 
-    var round = 7;
+    var round = 8;
+    var N = 25;
     var scorersTable = [];
     var superTable = [];
     await db.ref("Competitors/Round" + round).once("value").then(function(questionsSnapshot) {
@@ -19,23 +20,26 @@ const leaderboard = async (req, res) => {
         userId = questionSnapshot.key;
         var name = questionSnapshot.child("name").val();
 
-        var score = [0,0,0,0,0,0,0]
+        var score = []
+        for (var i = 0; i < N; i++) score.push(0);
         var userscore = 0;
         
         if (name != null) {
             //placehold is 1 to avoid divide by 0
-            for (let n = 1; n < 8; n++) {
-            score[n-1] = questionSnapshot.child("q" + n.toString() + "/Score").val();
+            for (let n = 1; n <= N; n++) {
+                score[n-1] = questionSnapshot.child("q" + n.toString() + "/Score").val();
 
-            if (score[n-1] == null) {
-                score[n-1] = 0
-            }
+                if (score[n-1] == null) {
+                    score[n-1] = 0
+                }
 
-            userscore += score[n-1]
+                userscore += score[n-1]
             }
 
             db.ref("Competitors/Round"+round+"/"+userId).update({totalscore: userscore});
-            scorersTable.push([name, userscore, score[0], score[1], score[2], score[3], score[4], score[5], score[6]]);
+            let updateRow = [name, userscore]
+            for (var i = 0; i < N; i++) updateRow.push(score[i]);
+            scorersTable.push(updateRow);
             superTable.push([userId, userscore])
         }
         });
